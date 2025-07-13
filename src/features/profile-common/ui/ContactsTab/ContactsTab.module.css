@@ -1,0 +1,76 @@
+/* File: src/features/profile-common/ui/ContactsTab/ContactsTab.module.css */
+
+/* Контейнер: адаптивная грид-сетка карточек */
+.container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+/* Карточка контакта */
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background: #ffffff;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+/* Верхняя часть с иконкой и типом */
+.itemHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Обёртка иконки */
+.iconWrapper {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  background: #f3f4f6;
+  border-radius: 50%;
+}
+
+/* Тип контакта */
+.contactType {
+  color: #6b7280;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* Лейбл контакта */
+.contactLabel {
+  color: #111827;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+/* Значение контакта */
+.contactValue {
+  color: #5388d8;
+  font-size: 0.875rem;
+  font-weight: 500;
+  word-break: break-all;
+}
+
+/* Плейсхолдер пустого состояния */
+.empty {
+  padding: 2rem;
+  text-align: center;
+  color: #6b7280;
+}
