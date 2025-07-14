@@ -139,14 +139,14 @@ export function AdminUsers() {
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("ru-RU")
   }
-
-  const handleViewUser = (userId: string) => {
+// eslint-disable-next-line
+  const handleViewUser = (_userId: string) => {
   }
-
-  const handleEditUser = (userId: string) => {
+// eslint-disable-next-line
+  const handleEditUser = (_userId: string) => {
   }
-
-  const handleBlockUser = (userId: string) => {
+// eslint-disable-next-line
+  const handleBlockUser = (_userId: string) => {
   }
 
   return (

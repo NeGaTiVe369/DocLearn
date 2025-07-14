@@ -100,7 +100,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ profile }) => {
     }
   }
 
-  const handleLoginSuccess = (userId: string) => {
+  const handleLoginSuccess = () => {
     setShowLoginModal(false)
     window.location.reload()
   }

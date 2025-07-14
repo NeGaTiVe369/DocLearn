@@ -96,14 +96,14 @@ export function AdminModeration() {
     }
     return labels[field] || field
   }
-
-  const handleApprove = (id: string, type: string) => {
+// eslint-disable-next-line
+  const handleApprove = (_id: string, _type: string) => {
   }
-
-  const handleReject = (id: string, type: string) => {
+// eslint-disable-next-line
+  const handleReject = (_id: string, _type: string) => {
   }
-
-  const handleView = (id: string, type: string) => {
+// eslint-disable-next-line
+  const handleView = (_id: string, _type: string) => {
   }
 
   const renderDocuments = () => {

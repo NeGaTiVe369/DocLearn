@@ -9,7 +9,7 @@ interface CoursesTabProps {
 }
 
 export const CoursesTab: React.FC<CoursesTabProps> = ({ profile }) => {
-  const { courses } = profile
+  // const { courses } = profile
 
   // if (!courses.length) {
   //   return <div className={styles.empty}>Курсов нет</div>

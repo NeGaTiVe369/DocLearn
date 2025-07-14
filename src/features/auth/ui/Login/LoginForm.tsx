@@ -31,7 +31,6 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, onForgotPassword }) =>
   const {
     control,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<LoginDto>({
     mode: "onChange",

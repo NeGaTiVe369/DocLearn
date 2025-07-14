@@ -174,7 +174,7 @@ export const ContactsBlock: React.FC<ContactsBlockProps> = ({ contacts = [], onC
 
       {contacts.length === 0 && (
         <Alert variant="light" className={styles.emptyState}>
-          Контакты не добавлены. Нажмите "Добавить контакт".
+          Контакты не добавлены. Нажмите &quot;Добавить контакт&quot;.
         </Alert>
       )}
 

@@ -25,7 +25,7 @@ export const profileEditApi = createApi({
         method: "POST",
         body: data,
       }),
-      invalidatesTags: (result, error, arg) => {
+      invalidatesTags: (result, _error, _arg) => {
         const tags = [{ type: "Profile" as const, id: "LIST" }] 
         if (result?.data?._id) {
           tags.push({ type: "Profile", id: result.data._id }) 
@@ -39,7 +39,7 @@ export const profileEditApi = createApi({
         url: `/user/${userId}/follow`,
         method: "POST",
       }),
-      invalidatesTags: (result, error, userId) => [{ type: "Profile", id: userId }],
+      invalidatesTags: (_result, _error, userId) => [{ type: "Profile", id: userId }],
     }),
 
     unfollowUser: builder.mutation<{ success: boolean; message: string }, string>({
@@ -47,7 +47,7 @@ export const profileEditApi = createApi({
         url: `/user/${userId}/follow`,
         method: "DELETE",
       }),
-      invalidatesTags: (result, error, userId) => [{ type: "Profile", id: userId }],
+      invalidatesTags: (_result, _error, userId) => [{ type: "Profile", id: userId }],
     }),
 
     checkFollowStatus: builder.query<{ success: boolean; data: { isFollowing: boolean } }, string>({
