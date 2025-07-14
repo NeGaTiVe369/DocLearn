@@ -5,7 +5,6 @@ import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import type { UserProfile, MenuItem } from "../../model/types"
-import { DEFAULT_PROFILE } from "../../model/constants"
 import styles from "./UserProfileCard.module.css"
 
 interface UserProfileCardProps extends Partial<UserProfile> {

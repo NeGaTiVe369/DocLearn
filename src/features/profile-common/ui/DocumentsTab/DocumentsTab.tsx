@@ -18,19 +18,15 @@ export const DocumentsTab: React.FC<DocumentsTabProps> = ({ profile }) => {
   const [showUploadModal, setShowUploadModal] = useState(false)
   const currentUser = useAppSelector(selectUser)
 
-  // Проверяем, является ли текущий пользователь владельцем профиля
   const isOwner = currentUser?._id === profile._id
 
   const handleUploadSuccess = (file: File) => {
-    console.log("Document uploaded successfully:", file.name)
-    // Здесь будет логика сохранения документа
   }
 
   const handleUploadError = (error: string) => {
     console.error("Upload error:", error)
   }
 
-  // Если это владелец профиля - показываем интерфейс управления документами
   if (isOwner) {
     return (
       <div className={styles.container}>
@@ -60,7 +56,6 @@ export const DocumentsTab: React.FC<DocumentsTabProps> = ({ profile }) => {
     )
   }
 
-  // Если это другой пользователь - показываем его документы (пока плейсхолдер)
   return (
     <div className={styles.container}>
       <div className={styles.content}>

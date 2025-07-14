@@ -46,11 +46,9 @@ export const EducationBlock: React.FC<EducationBlockProps> = ({ education = [], 
     const newEducation = education.filter((_, i) => i !== index)
     onChange("education", newEducation)
 
-    // Удаляем состояние touched для удаленного элемента
     const newTouchedFields = { ...touchedFields }
     delete newTouchedFields[index]
 
-    // Пересчитываем индексы для оставшихся элементов
     const reindexedTouchedFields: FieldTouched = {}
     Object.keys(newTouchedFields).forEach((key) => {
       const oldIndex = Number.parseInt(key)
@@ -88,7 +86,6 @@ export const EducationBlock: React.FC<EducationBlockProps> = ({ education = [], 
     const errors: Record<string, string> = {}
     const fieldTouched = touched[index] || {}
 
-    // Проверяем только те поля, которых касался пользователь
     if (fieldTouched.institution && edu.institution.trim() === "") {
       errors.institution = "Учебное заведение обязательно"
     }
@@ -145,9 +142,7 @@ export const EducationBlock: React.FC<EducationBlockProps> = ({ education = [], 
       }
     })
 
-    // Проверяем, что все блоки образования полностью заполнены
     educationList.forEach((edu) => {
-      // Проверяем обязательные поля
       if (
         !edu.institution.trim() ||
         !edu.degree.trim() ||
@@ -296,7 +291,6 @@ export const EducationBlock: React.FC<EducationBlockProps> = ({ education = [], 
                       updatedEduItem.isCurrently = isChecked
                       if (isChecked) {
                         updatedEduItem.graduationYear = ""
-                        // Убираем ошибку для graduationYear если отмечен чекбокс
                         const newTouchedFields = {
                           ...touchedFields,
                           [index]: {

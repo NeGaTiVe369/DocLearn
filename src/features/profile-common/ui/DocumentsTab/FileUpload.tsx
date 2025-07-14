@@ -164,7 +164,6 @@ export const FileUpload: React.FC<FileUploadProps> = ({
     return typeMap[type] || type.split("/")[1]?.toUpperCase() || "Unknown"
   }
 
-  // Состояние успешной загрузки - показываем информацию о файле и кнопки
   if (file && status === "success") {
     return (
       <div className={styles.container}>
@@ -211,7 +210,6 @@ export const FileUpload: React.FC<FileUploadProps> = ({
     )
   }
 
-  // Состояние загрузки
   if (status === "uploading" && file) {
     return (
       <div className={styles.container}>
@@ -249,7 +247,6 @@ export const FileUpload: React.FC<FileUploadProps> = ({
     )
   }
 
-  // Состояние ошибки
   if (status === "error") {
     return (
       <div className={styles.container}>
@@ -265,7 +262,6 @@ export const FileUpload: React.FC<FileUploadProps> = ({
     )
   }
 
-  // Начальное состояние - область для загрузки
   return (
     <div className={styles.container}>
       <div

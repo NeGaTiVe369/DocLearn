@@ -20,11 +20,10 @@ export const DocumentUploadModal: React.FC<DocumentUploadModalProps> = ({
   onUploadError,
 }) => {
   const acceptedFileTypes = ["application/pdf", "image/png", "image/jpeg"]
-  const maxFileSize = 10 * 1024 * 1024 // 10MB
+  const maxFileSize = 10 * 1024 * 1024 
 
   const handleUploadSuccess = (file: File) => {
     onUploadSuccess(file)
-    // Модальное окно НЕ закрывается автоматически
   }
 
   return (

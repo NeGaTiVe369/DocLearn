@@ -55,10 +55,9 @@ export interface Achievement {
 }
 
 export interface Contact {
-  type: {
-    type: string
-    label?: string
-  }
+  id: string
+  type: string
+  label?: string
   value: string
   isPublic?: boolean
 }

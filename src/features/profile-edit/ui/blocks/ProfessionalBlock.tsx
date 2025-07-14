@@ -13,7 +13,6 @@ interface ProfessionalData {
   specialization: string
 }
 
-// Создаем тип для всех возможных ключей профилей
 type ProfileKeys = keyof AuthorProfile | keyof StudentProfile
 
 interface ProfessionalBlockProps {

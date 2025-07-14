@@ -122,15 +122,14 @@
   background: rgba(83, 136, 216, 0.1);
 }
 
-/* Large mobile devices (tablets) */
 @media (max-width: 768px) and (min-width: 481px) {
   .container {
     padding: 1.25rem;
     height: auto;
     min-height: 240px;
-    display: flex; /* Added for stacking and centering */
-    flex-direction: column; /* Added for stacking and centering */
-    align-items: center; /* Added for stacking and centering */
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
   }
 
   .title {
@@ -139,14 +138,12 @@
   }
 
   .avatarImage {
-    /* Revert to default size from component props (120px) */
     width: 140px;
     height: 140px;
     border-width: 3px;
   }
 
   .addButton {
-    /* Revert to original link-like style */
     background: none;
     color: #5388d8;
     width: auto;
@@ -160,15 +157,14 @@
   }
 }
 
-/* Small mobile devices */
 @media (max-width: 480px) {
   .container {
     padding: 1rem;
     height: auto;
     min-height: 200px;
-    display: flex; /* Added for stacking and centering */
-    flex-direction: column; /* Added for stacking and centering */
-    align-items: center; /* Added for stacking and centering */
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
   }
 
   .title {
@@ -177,8 +173,8 @@
   }
 
   .avatarImage {
-    width: 120px; /* Increased size */
-    height: 120px; /* Increased size */
+    width: 120px; 
+    height: 120px; 
     border-width: 3px;
   }
 
@@ -187,7 +183,6 @@
   }
 
   .addButton {
-    /* Revert to original link-like style */
     background: none;
     color: #5388d8;
     width: auto;

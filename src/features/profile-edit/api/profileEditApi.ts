@@ -16,7 +16,6 @@ const baseQuery = fetchBaseQuery({
 
 export const profileEditApi = createApi({
   reducerPath: "profileEditApi",
-  // Обновляем tagTypes, чтобы использовать только "Profile"
   tagTypes: ["Profile"],
   baseQuery,
   endpoints: (builder) => ({
@@ -26,11 +25,10 @@ export const profileEditApi = createApi({
         method: "POST",
         body: data,
       }),
-      // Инвалидируем общий тег "Profile" и, возможно, конкретный профиль текущего пользователя
       invalidatesTags: (result, error, arg) => {
-        const tags = [{ type: "Profile" as const, id: "LIST" }] // Общий список профилей
+        const tags = [{ type: "Profile" as const, id: "LIST" }] 
         if (result?.data?._id) {
-          tags.push({ type: "Profile", id: result.data._id }) // Конкретный профиль
+          tags.push({ type: "Profile", id: result.data._id }) 
         }
         return tags
       },
@@ -41,7 +39,6 @@ export const profileEditApi = createApi({
         url: `/user/${userId}/follow`,
         method: "POST",
       }),
-      // Инвалидируем тег "Profile" для конкретного userId
       invalidatesTags: (result, error, userId) => [{ type: "Profile", id: userId }],
     }),
 
@@ -50,7 +47,6 @@ export const profileEditApi = createApi({
         url: `/user/${userId}/follow`,
         method: "DELETE",
       }),
-      // Инвалидируем тег "Profile" для конкретного userId
       invalidatesTags: (result, error, userId) => [{ type: "Profile", id: userId }],
     }),
 
@@ -59,7 +55,7 @@ export const profileEditApi = createApi({
         url: `/user/${userId}/is-following`,
         method: "GET",
       }),
-      providesTags: ["Profile"], // Этот тег может быть более специфичным, если нужно
+      providesTags: ["Profile"], 
     }),
   }),
 })

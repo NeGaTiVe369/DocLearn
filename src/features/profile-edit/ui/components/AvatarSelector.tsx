@@ -29,18 +29,13 @@ export const AvatarSelector: React.FC<AvatarSelectorProps> = ({ currentAvatar, o
   }
 
   const handleRandomAvatar = () => {
-    // Исключаем текущий аватар из списка доступных
     const availableAvatars = avatars.filter((avatar) => avatar !== currentAvatar)
 
-    // Если все аватары уже использованы (что маловероятно с 22 аватарками),
-    // используем полный список
     const avatarsToChooseFrom = availableAvatars.length > 0 ? availableAvatars : avatars
 
-    // Выбираем случайный аватар
     const randomIndex = Math.floor(Math.random() * avatarsToChooseFrom.length)
     const randomAvatar = avatarsToChooseFrom[randomIndex]
 
-    // Сразу применяем изменение
     onAvatarChange(randomAvatar)
   }
 

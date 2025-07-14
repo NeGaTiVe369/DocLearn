@@ -24,7 +24,6 @@ export function ForgotPasswordModal({ show, handleClose, onBackToLogin }: Forgot
   }, [show, dispatch])
 
   const handleSuccess = () => {
-    // Модальное окно остается открытым, показывая сообщение об успехе
   }
 
   const handleModalClose = () => {

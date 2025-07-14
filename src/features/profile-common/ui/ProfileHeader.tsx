@@ -33,7 +33,6 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ profile }) => {
   const [followUser] = useFollowUserMutation()
   const [unfollowUser] = useUnfollowUserMutation()
 
-  // Проверяем статус подписки только если пользователь авторизован и это не его профиль
   const isOwnProfile = currentUser?._id === profile._id
   const shouldCheckFollowStatus = isAuthenticated && !isOwnProfile
 
@@ -57,8 +56,6 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ profile }) => {
 
   const fullName = `${firstName} ${lastName}`
 
-  // const specText = specialization || "Специализация не указана"
-
   const getSpecializationText = () => {
     if (profile.role === "student") {
       const studentProfile = profile as StudentProfile
@@ -69,7 +66,6 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ profile }) => {
     }
   }
 
-  // Определяем опыт/GPA в зависимости от роли
   const getExperienceText = () => {
     if (profile.role === "student") {
       const studentProfile = profile as StudentProfile
@@ -93,25 +89,19 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ profile }) => {
       if (isFollowing) {
         const result = await unfollowUser(_id).unwrap()
         console.log("Отписка успешна:", result.message)
-        // Показать уведомление об успехе
       } else {
         const result = await followUser(_id).unwrap()
         console.log("Подписка успешна:", result.message)
-        // Показать уведомление об успехе
       }
 
-      // Обновляем статус подписки
       refetchFollowStatus()
-      console.log("Рефетч")
     } catch (error: any) {
       console.error("Ошибка при изменении подписки:", error)
-      // Показать уведомление об ошибке
     }
   }
 
   const handleLoginSuccess = (userId: string) => {
     setShowLoginModal(false)
-    // После успешного входа можно обновить страницу или состояние
     window.location.reload()
   }
 
