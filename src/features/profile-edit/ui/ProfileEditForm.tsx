@@ -16,12 +16,14 @@ import { useUpdateMyProfileMutation } from "../api/profileEditApi"
 import { useFormChanges } from "@/features/profile-edit/hooks/useFormChanges"
 import { Alert } from "react-bootstrap"
 import styles from "./ProfileEditForm.module.css"
+import { useScrollToHash } from "@/shared/hooks/useScrollToHash"
 
 interface ProfileEditFormProps {
   profile: AuthorProfile | StudentProfile
 }
 
 export const ProfileEditForm: React.FC<ProfileEditFormProps> = ({ profile }) => {
+  useScrollToHash()
   const router = useRouter()
   const [updateProfile, { isLoading: isUpdating }] = useUpdateMyProfileMutation()
 
@@ -169,11 +171,13 @@ export const ProfileEditForm: React.FC<ProfileEditFormProps> = ({ profile }) => 
           />
         )}
 
-        <ContactsBlock
-          contacts={formData.contacts || []}
-          onChange={updateField}
-          onValidationChange={handleContactsValidationChange}
-        />
+        <div id="contacts" style={{marginBottom:"1.5rem"}}>
+          <ContactsBlock
+            contacts={formData.contacts || []}
+            onChange={updateField}
+            onValidationChange={handleContactsValidationChange}
+          />
+        </div>
 
         <EducationBlock
           education={formData.education || []}

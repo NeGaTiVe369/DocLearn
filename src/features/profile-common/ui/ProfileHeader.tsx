@@ -18,6 +18,7 @@ import RegistrationModal from "@/features/auth/ui/Registration/RegistrationModal
 import { MapPin, GraduationCap, Briefcase } from "lucide-react"
 import styles from "./ProfileHeader.module.css"
 import { Spinner } from "react-bootstrap"
+import { ContactsModal } from "./ContactsModal/ContactsModal"
 
 interface ProfileHeaderProps {
   profile: AuthorProfile | StudentProfile
@@ -30,6 +31,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ profile }) => {
 
   const [showLoginModal, setShowLoginModal] = useState(false)
   const [showRegisterModal, setShowRegisterModal] = useState(false)
+  const [showContactsModal, setShowContactsModal] = useState(false)
   const [followUser, { isLoading: isFollowLoading }] = useFollowUserMutation()
   const [unfollowUser, { isLoading: isUnfollowLoading }] = useUnfollowUserMutation()
 
@@ -78,10 +80,8 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ profile }) => {
     try {
       if (isFollowing) {
         const result = await unfollowUser(_id).unwrap()
-        console.log("Отписка успешна:", result.message)
       } else {
         const result = await followUser(_id).unwrap()
-        console.log("Подписка успешна:", result.message)
       }
 
       refetchFollowStatus()
@@ -95,33 +95,67 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ profile }) => {
     window.location.reload()
   }
 
+  const handleAddContacts = () => {
+    router.push(`/profile/${_id}/edit#contacts`)
+  }
+
   const renderActionButton = () => {
     const isButtonLoading = isFollowLoading || isUnfollowLoading
+    const publicContacts =
+      profile.contacts?.filter((contact) => contact && contact.type && contact.value && contact.isPublic !== false) ||
+      []
+    const hasAnyContacts = profile.contacts?.length > 0
+    const hasPublicContacts = publicContacts.length > 0
 
     if (!isAuthenticated) {
       return (
-        <button className={styles.primaryButton} onClick={() => setShowLoginModal(true)} disabled={isButtonLoading}>
-          {isButtonLoading ? <Spinner animation="border" size="sm" /> : "Подписаться"}
-        </button>
+        <div className={styles.actions}>
+          <button className={styles.primaryButton} onClick={() => setShowLoginModal(true)} disabled={isButtonLoading}>
+            {isButtonLoading ? <Spinner animation="border" size="sm" /> : "Подписаться"}
+          </button>
+          {hasPublicContacts && (
+            <button className={styles.secondaryButton} onClick={() => setShowContactsModal(true)}>
+              Связаться
+            </button>
+          )}
+        </div>
       )
     }
 
     if (isOwnProfile) {
       return (
-        <button className={styles.secondaryButton} onClick={() => router.push(`/profile/${_id}/edit`)}>
-          Редактировать
-        </button>
+        <div className={styles.actions}>
+          <button className={styles.secondaryButton} onClick={() => router.push(`/profile/${_id}/edit`)}>
+            Редактировать
+          </button>
+          {hasAnyContacts ? (
+            <button className={styles.primaryButton} onClick={() => setShowContactsModal(true)}>
+              Мои контакты
+            </button>
+          ) : (
+            <button className={styles.primaryButton} onClick={handleAddContacts}>
+              Добавить контакты
+            </button>
+          )}
+        </div>
       )
     }
 
     return (
-      <button
-        className={isFollowing ? styles.secondaryButton : styles.primaryButton}
-        onClick={handleFollowToggle}
-        disabled={isButtonLoading}
-      >
-        {isButtonLoading ? <Spinner animation="border" size="sm" /> : isFollowing ? "Отписаться" : "Подписаться"}
-      </button>
+      <div className={styles.actions}>
+        <button
+          className={isFollowing ? styles.secondaryButton : styles.primaryButton}
+          onClick={handleFollowToggle}
+          disabled={isButtonLoading}
+        >
+          {isButtonLoading ? <Spinner animation="border" size="sm" /> : isFollowing ? "Отписаться" : "Подписаться"}
+        </button>
+        {hasPublicContacts && (
+          <button className={styles.secondaryButton} onClick={() => setShowContactsModal(true)}>
+            Связаться
+          </button>
+        )}
+      </div>
     )
   }
 
@@ -205,6 +239,13 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ profile }) => {
           setShowLoginModal(true)
         }}
       />
+      {/* <ContactsModal
+        show={showContactsModal}
+        onHide={() => setShowContactsModal(false)}
+        contacts={profile.contacts || []}
+        isOwner={isOwnProfile}
+        title={isOwnProfile ? "Мои контакты" : "Контакты для связи"}
+      /> */}
     </>
   )
 }
