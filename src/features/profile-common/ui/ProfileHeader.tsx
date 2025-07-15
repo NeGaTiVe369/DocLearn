@@ -17,21 +17,21 @@ import LoginModal from "@/features/auth/ui/Login/LoginModal"
 import RegistrationModal from "@/features/auth/ui/Registration/RegistrationModal"
 import { MapPin, GraduationCap, Briefcase } from "lucide-react"
 import styles from "./ProfileHeader.module.css"
+import { Spinner } from "react-bootstrap"
 
 interface ProfileHeaderProps {
   profile: AuthorProfile | StudentProfile
 }
 
 export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ profile }) => {
-
   const currentUser = useAppSelector(selectUser)
   const isAuthenticated = useAppSelector(selectIsAuthenticated)
   const router = useRouter()
 
   const [showLoginModal, setShowLoginModal] = useState(false)
   const [showRegisterModal, setShowRegisterModal] = useState(false)
-  const [followUser] = useFollowUserMutation()
-  const [unfollowUser] = useUnfollowUserMutation()
+  const [followUser, { isLoading: isFollowLoading }] = useFollowUserMutation()
+  const [unfollowUser, { isLoading: isUnfollowLoading }] = useUnfollowUserMutation()
 
   const isOwnProfile = currentUser?._id === profile._id
   const shouldCheckFollowStatus = isAuthenticated && !isOwnProfile
@@ -42,17 +42,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ profile }) => {
 
   const isFollowing = followStatusData?.data?.isFollowing || false
 
-  const {
-    _id,
-    avatar,
-    firstName,
-    lastName,
-    location,
-    placeWork,
-    rating,
-    isVerified,
-    stats,
-  } = profile
+  const { _id, avatar, firstName, lastName, location, placeWork, rating, isVerified, stats } = profile
 
   const fullName = `${firstName} ${lastName}`
 
@@ -106,10 +96,12 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ profile }) => {
   }
 
   const renderActionButton = () => {
+    const isButtonLoading = isFollowLoading || isUnfollowLoading
+
     if (!isAuthenticated) {
       return (
-        <button className={styles.primaryButton} onClick={() => setShowLoginModal(true)}>
-          Подписаться
+        <button className={styles.primaryButton} onClick={() => setShowLoginModal(true)} disabled={isButtonLoading}>
+          {isButtonLoading ? <Spinner animation="border" size="sm" /> : "Подписаться"}
         </button>
       )
     }
@@ -123,8 +115,12 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ profile }) => {
     }
 
     return (
-      <button className={isFollowing ? styles.secondaryButton : styles.primaryButton} onClick={handleFollowToggle}>
-        {isFollowing ? "Отписаться" : "Подписаться"}
+      <button
+        className={isFollowing ? styles.secondaryButton : styles.primaryButton}
+        onClick={handleFollowToggle}
+        disabled={isButtonLoading}
+      >
+        {isButtonLoading ? <Spinner animation="border" size="sm" /> : isFollowing ? "Отписаться" : "Подписаться"}
       </button>
     )
   }
@@ -136,16 +132,16 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ profile }) => {
           <Image
             src={avatar || "/Avatars/Avatar1.webp"}
             alt={fullName}
-            width={120} 
-            height={120} 
+            width={120}
+            height={120}
             className={styles.avatar}
             priority={true}
           />
         </div>
         <div className={styles.center}>
           <h1 className={styles.name}>
-            {fullName} 
-            {isVerified?.doctor && <VerifiedBadge className={styles.verifiedIcon} />} 
+            {fullName}
+            {isVerified?.doctor && <VerifiedBadge className={styles.verifiedIcon} />}
           </h1>
           {specText && <div className={styles.specialization}>{specText}</div>}
           <div className={styles.meta}>
@@ -171,23 +167,25 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ profile }) => {
             </div>
           </div>
         </div>
-          <div className={styles.statsBlock}>
-            <div className={styles.stat}>
-              <span className={styles.statValue}>{stats?.followersCount || 0}</span>
-              <span className={styles.statLabel}>Подписчики</span>
-            </div>
-            <div className={styles.stat}>
-              <span className={styles.statValue}>{stats?.followingCount || 0}</span>
-              <span className={styles.statLabel}>Подписки</span>
-            </div>
-            <div className={`${styles.stat} ${styles.tooltipWrapper}`}>
-              <span className={styles.statValueBlue}>{rating || 0}</span>
-              <span className={styles.statLabel}>ELO рейтинг</span>
-              <div className={styles.tooltipText}>{profile.role === "student" ? "Рейтинг студентов пока в разработке" : "Рейтинг врачей пока в разработке"}</div>
+        <div className={styles.statsBlock}>
+          <div className={styles.stat}>
+            <span className={styles.statValue}>{stats?.followersCount || 0}</span>
+            <span className={styles.statLabel}>Подписчики</span>
+          </div>
+          <div className={styles.stat}>
+            <span className={styles.statValue}>{stats?.followingCount || 0}</span>
+            <span className={styles.statLabel}>Подписки</span>
+          </div>
+          <div className={`${styles.stat} ${styles.tooltipWrapper}`}>
+            <span className={styles.statValueBlue}>{rating || 0}</span>
+            <span className={styles.statLabel}>ELO рейтинг</span>
+            <div className={styles.tooltipText}>
+              {profile.role === "student" ? "Рейтинг студентов пока в разработке" : "Рейтинг врачей пока в разработке"}
             </div>
           </div>
-          
-          <div className={styles.actions}>{renderActionButton()}</div>
+        </div>
+
+        <div className={styles.actions}>{renderActionButton()}</div>
       </div>
       <LoginModal
         show={showLoginModal}

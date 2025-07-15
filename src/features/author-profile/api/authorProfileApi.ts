@@ -2,7 +2,8 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 import type { AuthorProfile } from "@/entities/user/model/types"
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "https://dl-back-756832582185.us-east1.run.app",
+  baseUrl: "https://api.doclearn.ru",
+  // baseUrl: "https://dl-back-756832582185.us-east1.run.app",
   prepareHeaders: (headers) => {
     const refreshToken = localStorage.getItem("refreshToken")
     if (refreshToken) {

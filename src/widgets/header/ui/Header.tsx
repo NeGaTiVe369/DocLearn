@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { Button } from "react-bootstrap"
+import { Button, Spinner } from "react-bootstrap"
 import Image from "next/image"
 import styles from "./Header.module.css"
 import Logo from "./Logo"
@@ -62,7 +62,6 @@ export default function Header() {
     setShowProfilePopup(false)
   }
 
-  // Закрытие попапа при клике вне его
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (profilePopupRef.current && !profilePopupRef.current.contains(event.target as Node)) {
@@ -87,7 +86,7 @@ export default function Header() {
 
         {isLoading && !isAuthenticated ? (
           <Button className={styles.button} disabled>
-            Загрузка...
+            <Spinner animation="border" size="sm" />
           </Button>
         ) : isAuthenticated && user ? (
           <div className={styles.avatarContainer} ref={profilePopupRef}>
