@@ -85,7 +85,15 @@ export const useFormChanges = (initialData: ProfileUnion) => {
     const changes: ProfileChanges = {}
     const original = originalData.current
 
-    const commonFields: (keyof ProfileUnion)[] = ["firstName", "lastName", "bio", "placeWork", "location", "avatar"]
+    const commonFields: (keyof ProfileUnion)[] = [
+      "firstName",
+      "lastName", 
+      "bio", 
+      "placeWork", 
+      "location", 
+      "avatar",
+      "defaultAvatarPath",
+    ]
 
     commonFields.forEach((field) => {
       const originalValue = original[field] || ""
@@ -107,8 +115,7 @@ export const useFormChanges = (initialData: ProfileUnion) => {
       if (originalStudent.programType !== currentStudent.programType) {
         changes.programType = currentStudent.programType
       }
-    }
-    else if (
+    } else if (
       (original.role === "doctor" || original.role === "admin") &&
       (formData.role === "doctor" || formData.role === "admin")
     ) {

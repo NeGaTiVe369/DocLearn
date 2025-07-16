@@ -11,6 +11,7 @@ export interface RegisterDto {
   birthday: string
   placeWork: string
   role: "student" | "doctor"
+  defaultAvatarPath: string
 }
 
 export interface VerifyDto {

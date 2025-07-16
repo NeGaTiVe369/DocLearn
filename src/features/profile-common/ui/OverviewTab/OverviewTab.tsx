@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import type React from "react"
 import type { AuthorProfile, StudentProfile } from '@/entities/user/model/types'
 import { useSelector } from "react-redux"
 import type { RootState } from "@/app/store"
@@ -43,7 +43,7 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ profile }) => {
     reviewsCount: 127,
     patientsCount: '2 400+',
     availableSlots: ['Сегодня 15:30', 'Завтра 10:00', 'Завтра 14:30'],
-  };
+  }
 
   // const achievementIconMap: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
   //   education: GraduationCap,

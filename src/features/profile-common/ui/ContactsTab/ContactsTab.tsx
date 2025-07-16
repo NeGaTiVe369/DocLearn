@@ -89,7 +89,7 @@ export const ContactsTab: React.FC<ContactsTabProps> = ({ contacts }) => {
 
         return (
           <a
-            key={contact.id}
+            key={contact._id}
             href={href}
             target={isExternal ? "_blank" : undefined}
             rel={isExternal ? "noopener noreferrer" : undefined}

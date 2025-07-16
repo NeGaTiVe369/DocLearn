@@ -131,7 +131,7 @@ export const ProfileEditForm: React.FC<ProfileEditFormProps> = ({ profile }) => 
         <div className={styles.topSection}>
           <div className={styles.avatarWrapper}>
             <AvatarSelector
-              currentAvatar={formData.avatar || "/Avatars/Avatar1.webp"}
+              currentAvatar={formData.avatar || formData.defaultAvatarPath}
               onAvatarChange={(avatar) => updateField("avatar", avatar)}
             />
           </div>

@@ -2,7 +2,8 @@
 
 import type React from "react"
 import { Modal } from "react-bootstrap"
-import { X, Mail, Phone, Globe, MessageCircle } from "lucide-react"
+import { X, Mail, Phone, Globe, MessageCircle, } from "lucide-react"
+import { Telegram, Whatsapp, Facebook, Instagram, Twitter } from "iconoir-react"
 import type { Contact } from "@/entities/user/model/types"
 import styles from "./ContactsModal.module.css"
 
@@ -30,8 +31,17 @@ export const ContactsModal: React.FC<ContactsModalProps> = ({ show, onHide, cont
       case "website":
         return Globe
       case "telegram":
+        return Telegram
       case "whatsapp":
+        return Whatsapp
+      case "vk":
         return MessageCircle
+      case "facebook":
+        return Facebook
+      case "twitter":
+        return Twitter
+      case "instagram":
+        return Instagram
       default:
         return MessageCircle
     }
@@ -74,6 +84,18 @@ export const ContactsModal: React.FC<ContactsModalProps> = ({ show, onHide, cont
         return `tel:${contact.value}`
       case "website":
         return contact.value.startsWith("http") ? contact.value : `https://${contact.value}`
+      case "telegram":
+        return `https://t.me/${contact.value.replace(/^@/, "")}`
+      case "whatsapp":
+        return `https://wa.me/${contact.value.replace(/\D/g, "")}`
+      case "vk":
+        return `https://vk.com/${contact.value}`
+      case "facebook":
+        return `https://www.facebook.com/${contact.value}`
+      case "twitter":
+        return `https://twitter.com/${contact.value.replace(/^@/, "")}`
+      case "instagram":
+        return `https://www.instagram.com/${contact.value.replace(/^@/, "")}`
       default:
         return contact.value
     }
@@ -99,13 +121,19 @@ export const ContactsModal: React.FC<ContactsModalProps> = ({ show, onHide, cont
               {displayContacts.map((contact) => {
                 const Icon = getContactIcon(contact.type)
                 const href = getContactHref(contact)
-                const isExternal = contact.type?.toLowerCase() === "website"
+                const isExternal = contact.type?.toLowerCase() === "website" ||
+                  contact.type?.toLowerCase() === "telegram" ||
+                  contact.type?.toLowerCase() === "whatsapp" ||
+                  contact.type?.toLowerCase() === "vk" ||
+                  contact.type?.toLowerCase() === "facebook" ||
+                  contact.type?.toLowerCase() === "twitter" ||
+                  contact.type?.toLowerCase() === "instagram"
                 const typeLabel = getContactTypeLabel(contact.type)
                 const displayLabel = contact.label || typeLabel
 
                 return (
                   <a
-                    key={contact.id}
+                    key={contact._id}
                     href={href}
                     target={isExternal ? "_blank" : undefined}
                     rel={isExternal ? "noopener noreferrer" : undefined}

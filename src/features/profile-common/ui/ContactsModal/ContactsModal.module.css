@@ -163,7 +163,6 @@
   background: #a8a8a8;
 }
 
-/* Mobile responsiveness */
 @media (max-width: 768px) {
   .modal-content {
     padding: 1.5rem;

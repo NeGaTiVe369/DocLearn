@@ -30,6 +30,7 @@ export interface User {
   }
   createdAt: string
   avatar?: string
+  defaultAvatarPath: string
   location: string
   followers: string[]
   following: string[]
@@ -55,7 +56,7 @@ export interface Achievement {
 }
 
 export interface Contact {
-  id: string
+  _id: string
   type: string
   label?: string
   value: string

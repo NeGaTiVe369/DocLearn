@@ -44,7 +44,9 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ profile }) => {
 
   const isFollowing = followStatusData?.data?.isFollowing || false
 
-  const { _id, avatar, firstName, lastName, location, placeWork, rating, isVerified, stats } = profile
+  const { _id, avatar, defaultAvatarPath, firstName, lastName,
+  location, placeWork, rating, isVerified, stats } = 
+     profile
 
   const fullName = `${firstName} ${lastName}`
 
@@ -164,7 +166,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ profile }) => {
       <div className={styles.container}>
         <div className={styles.left}>
           <Image
-            src={avatar || "/Avatars/Avatar1.webp"}
+            src={avatar || defaultAvatarPath}
             alt={fullName}
             width={120}
             height={120}
@@ -239,13 +241,13 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ profile }) => {
           setShowLoginModal(true)
         }}
       />
-      {/* <ContactsModal
+      <ContactsModal
         show={showContactsModal}
         onHide={() => setShowContactsModal(false)}
         contacts={profile.contacts || []}
         isOwner={isOwnProfile}
         title={isOwnProfile ? "Мои контакты" : "Контакты для связи"}
-      /> */}
+      />
     </>
   )
 }

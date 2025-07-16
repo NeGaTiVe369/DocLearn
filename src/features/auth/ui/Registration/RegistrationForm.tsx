@@ -1,6 +1,7 @@
 "use client"
 
-import React, { useEffect } from "react";
+import type React from "react"
+import { useEffect } from "react"
 import { Button, Spinner } from "react-bootstrap"
 import { useForm } from "react-hook-form"
 import styles from "../styles/AuthForm.module.css"
@@ -14,7 +15,7 @@ import { validateName, validateEmail, validatePassword } from "@/shared/lib/vali
 import { errorMessages } from "@/shared/lib/errorMessages"
 import type { RegisterDto } from "@/features/auth/model/types"
 
-interface RegistrationFormData extends Omit<RegisterDto, "role"> {
+interface RegistrationFormData extends Omit<RegisterDto, "role" | "defaultAvatarPath"> {
   confirmPassword: string
   role: RegisterDto["role"]
 }
@@ -75,6 +76,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ role, onSuccess }) 
     const formattedData = {
       ...registerData,
       birthday: registerData.birthday, 
+      defaultAvatarPath: "/Avatars/Avatar1.webp",
     }
     dispatch(registerUser(formattedData))
   }

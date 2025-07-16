@@ -1,8 +1,8 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
-import type { Metadata } from "next";
-import { Montserrat } from "next/font/google";
-import "./globals.css";
-import Header from '@/widgets/header/ui/Header';
+import 'bootstrap/dist/css/bootstrap.min.css'
+import type { Metadata } from "next"
+import { Montserrat } from "next/font/google"
+import "./globals.css"
+import Header from '@/widgets/header/ui/Header'
 import { Providers } from "./providers"
 
 const montserrat = Montserrat({
@@ -21,23 +21,21 @@ export const metadata: Metadata = {
         },
     ],
 },
-};
+}
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
     <html lang="ru">
-      <body
-        className={`${montserrat.variable}  antialiased`}
-      >
+      <body className={`${montserrat.variable}  antialiased`}>
         <Providers>
           <Header />
           {children}
         </Providers>
       </body>
     </html>
-  );
+  )
 }

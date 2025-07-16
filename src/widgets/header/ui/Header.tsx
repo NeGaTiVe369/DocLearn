@@ -92,7 +92,7 @@ export default function Header() {
           <div className={styles.avatarContainer} ref={profilePopupRef}>
             <div className={styles.avatarWrapper} onClick={toggleProfilePopup}>
               <Image
-                src={user.avatar || "/Avatars/Avatar1.webp"}
+                src={user.avatar || user.defaultAvatarPath}
                 alt="User Avatar"
                 width={45}
                 height={45}
@@ -104,7 +104,8 @@ export default function Header() {
                 <UserProfileCard
                   name={`${user.firstName} ${user.lastName}`}
                   role={user.role === "student" ? "Студент" : user.role === "doctor" ? "Врач" : "Администратор"}
-                  avatar={user.avatar || "/Avatars/Avatar1.webp"}
+                  avatar={user.avatar}
+                  defaultAvatarPath={user.defaultAvatarPath}
                   userId={user._id}
                   onLogout={handleLogout}
                   onClose={closeProfilePopup}
