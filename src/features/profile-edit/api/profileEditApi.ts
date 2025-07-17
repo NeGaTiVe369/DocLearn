@@ -1,16 +1,20 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
-import type { UpdateProfileRequest, UpdateProfileResponse } from "../model/types"
+import type { UpdateProfileRequest, UpdateProfileResponse, UploadAvatarResponse } from "../model/types"
 
 const baseQuery = fetchBaseQuery({
   baseUrl: "https://api.doclearn.ru",
   // baseUrl: "https://dl-back-756832582185.us-east1.run.app",
 
-  prepareHeaders: (headers) => {
+  prepareHeaders: (headers, { endpoint }) => {
     const refreshToken = localStorage.getItem("refreshToken")
     if (refreshToken) {
       headers.set("Authorization", `Bearer ${refreshToken}`)
     }
-    headers.set("Content-Type", "application/json")
+
+    if (endpoint !== "uploadAvatar") {
+      headers.set("Content-Type", "application/json")
+    }
+
     return headers
   },
   credentials: "include",
@@ -32,6 +36,22 @@ export const profileEditApi = createApi({
         if (result?.data?._id) {
           tags.push({ type: "Profile", id: result.data._id }) 
         }
+        return tags
+      },
+    }),
+
+    uploadAvatar: builder.mutation<UploadAvatarResponse, File>({
+      query: (file) => {
+        const formData = new FormData()
+        formData.append("avatar", file)
+        return {
+          url: "/user/avatar",
+          method: "POST",
+          body: formData,
+        }
+      },
+      invalidatesTags: (result, _error, _arg) => {
+        const tags = [{ type: "Profile" as const, id: "LIST" }]
         return tags
       },
     }),
@@ -62,5 +82,10 @@ export const profileEditApi = createApi({
   }),
 })
 
-export const { useUpdateMyProfileMutation, useFollowUserMutation, useUnfollowUserMutation, useCheckFollowStatusQuery } =
-  profileEditApi
+export const {
+  useUpdateMyProfileMutation,
+  useFollowUserMutation,
+  useUnfollowUserMutation,
+  useCheckFollowStatusQuery,
+  useUploadAvatarMutation,
+} = profileEditApi

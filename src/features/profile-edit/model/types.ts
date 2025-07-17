@@ -22,3 +22,11 @@ export interface UpdateProfileResponse {
   data: AuthorProfile | StudentProfile
   moderationFields?: string[]
 }
+
+export interface UploadAvatarResponse {
+  success: boolean
+  data: {
+    message: string
+    avatarUrl: string
+  }
+}

@@ -31,6 +31,8 @@ export interface User {
   createdAt: string
   avatar?: string
   defaultAvatarPath: string
+  avatarUrl?: string
+  avatarUrlTimestamp?: number
   location: string
   followers: string[]
   following: string[]

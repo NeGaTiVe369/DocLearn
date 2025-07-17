@@ -58,11 +58,12 @@ const isValidEducation = (edu: Education): boolean => {
 }
 
 export const useFormChanges = (initialData: ProfileUnion) => {
-  const [formData, setFormData] = useState<ProfileUnion>(() => ({
+  const [formData, setFormData] = useState<ProfileUnion & { uploadedAvatarFile?: File | null }>(() => ({
     ...initialData,
     contacts: initialData.contacts || [],
     education: initialData.education || [],
     bio: initialData.bio || "",
+    uploadedAvatarFile: null,
   }))
 
   const originalData = useRef<ProfileUnion>(initialData)
@@ -74,6 +75,7 @@ export const useFormChanges = (initialData: ProfileUnion) => {
       contacts: newData.contacts || [],
       education: newData.education || [],
       bio: newData.bio || "",
+      uploadedAvatarFile: null,
     })
   }, [])
 
@@ -87,10 +89,10 @@ export const useFormChanges = (initialData: ProfileUnion) => {
 
     const commonFields: (keyof ProfileUnion)[] = [
       "firstName",
-      "lastName", 
-      "bio", 
-      "placeWork", 
-      "location", 
+      "lastName",
+      "bio",
+      "placeWork",
+      "location",
       "avatar",
       "defaultAvatarPath",
     ]
@@ -157,8 +159,10 @@ export const useFormChanges = (initialData: ProfileUnion) => {
   }, [formData])
 
   const hasChanges = useMemo(() => {
-    return Object.keys(getChangedFields()).length > 0
-  }, [getChangedFields])
+    const profileChanges = Object.keys(getChangedFields()).length > 0
+    const hasUploadedFile = Boolean(formData.uploadedAvatarFile)
+    return profileChanges || hasUploadedFile
+  }, [getChangedFields, formData.uploadedAvatarFile])
 
   const resetToOriginal = useCallback(() => {
     setFormData({
@@ -166,6 +170,7 @@ export const useFormChanges = (initialData: ProfileUnion) => {
       contacts: originalData.current.contacts || [],
       education: originalData.current.education || [],
       bio: originalData.current.bio || "",
+      uploadedAvatarFile: null,
     })
   }, [])
 
@@ -196,6 +201,14 @@ export const useFormChanges = (initialData: ProfileUnion) => {
     return cleanedData
   }, [getChangedFields])
 
+  const setUploadedAvatarFile = useCallback((file: File | null) => {
+    setFormData((prev) => ({ ...prev, uploadedAvatarFile: file }))
+  }, [])
+
+  const clearUploadedAvatarFile = useCallback(() => {
+    setFormData((prev) => ({ ...prev, uploadedAvatarFile: null }))
+  }, [])
+
   return {
     formData,
     updateField,
@@ -204,5 +217,7 @@ export const useFormChanges = (initialData: ProfileUnion) => {
     hasChanges,
     resetToOriginal,
     updateOriginalData,
+    setUploadedAvatarFile,
+    clearUploadedAvatarFile,
   }
 }
