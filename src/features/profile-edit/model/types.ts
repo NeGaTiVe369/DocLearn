@@ -14,6 +14,7 @@ export interface UpdateProfileRequest {
   contacts?: Contact[]
   education?: Education[]
   avatar?: string
+  defaultAvatarPath?: string
 }
 
 export interface UpdateProfileResponse {
