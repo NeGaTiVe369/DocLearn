@@ -93,8 +93,19 @@ export const checkAuthStatus = createAsyncThunk<User | null>("auth/checkAuthStat
   }
 })
 
-export const logoutUser = createAsyncThunk("auth/logoutUser", async () => {
-  localStorage.removeItem("refreshToken")
-})
+export const logoutUser = createAsyncThunk<void, void, { rejectValue: string }>(
+  "auth/logoutUser",
+  async (_, { rejectWithValue }) => {
+    try {
+      await http.delete("/auth/logout")
+      localStorage.removeItem("refreshToken")
+    } catch (err) {
+      if (axios.isAxiosError(err) && err.response?.status === 401) {
+        return rejectWithValue("Токен не найден")
+      }
+      localStorage.removeItem("refreshToken")
+    }
+  },
+)
 
 export { clearAuthError }

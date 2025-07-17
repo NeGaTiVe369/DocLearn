@@ -43,6 +43,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ role, onSuccess }) 
     defaultValues: {
       firstName: "",
       lastName: "",
+      middleName: "", 
       birthday: "",
       placeWork: "",
       email: "",
@@ -70,13 +71,14 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ role, onSuccess }) 
 
   const onSubmit = (data: RegistrationFormData) => {
     const { confirmPassword, ...registerData } = data
-      console.log(">> Registration payload:", {
-        registerData,
-      })
+    console.log(">> Registration payload:", {
+      registerData,
+    })
     const formattedData = {
       ...registerData,
-      birthday: registerData.birthday, 
+      birthday: registerData.birthday,
       defaultAvatarPath: "/Avatars/Avatar1.webp",
+      middleName: registerData.middleName || undefined,
     }
     dispatch(registerUser(formattedData))
   }
@@ -107,6 +109,17 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ role, onSuccess }) 
         }}
         error={errors.lastName}
         placeholder="Введите фамилию"
+      />
+
+      <FormInput
+        name="middleName"
+        label="Отчество (если есть)"
+        control={control}
+        rules={{
+          validate: validateName, 
+        }}
+        error={errors.middleName}
+        placeholder="Введите отчество"
       />
 
       <FormInput

@@ -90,6 +90,7 @@ export const useFormChanges = (initialData: ProfileUnion) => {
     const commonFields: (keyof ProfileUnion)[] = [
       "firstName",
       "lastName",
+      "middleName",
       "bio",
       "placeWork",
       "location",
@@ -180,12 +181,18 @@ export const useFormChanges = (initialData: ProfileUnion) => {
 
     Object.entries(changedFields).forEach(([key, value]) => {
       if (key === "contacts" && Array.isArray(value)) {
-        const validContacts = (value as Contact[]).filter(isValidContact)
+        const validContacts = (value as Contact[]).filter(isValidContact).map(({ _id, ...rest }) => rest)
         if (validContacts.length > 0) {
           cleanedData[key] = validContacts
         }
       } else if (key === "education" && Array.isArray(value)) {
-        const validEducation = (value as Education[]).filter(isValidEducation)
+        const validEducation = (value as Education[]).filter(isValidEducation).map(({ id, ...rest }) => {
+          if (rest.isCurrently) {
+            const { graduationYear, ...educationWithoutGraduationYear } = rest
+            return educationWithoutGraduationYear
+          }
+          return rest
+        })
         if (validEducation.length > 0) {
           cleanedData[key] = validEducation
         }

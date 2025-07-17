@@ -19,6 +19,7 @@ export interface User {
   _id: string
   firstName: string
   lastName: string
+  middleName?: string
   email: string
   birthday: string
   placeWork: string //placeStudy

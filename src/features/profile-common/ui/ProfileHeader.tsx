@@ -7,7 +7,7 @@ import { selectUser, selectIsAuthenticated } from "@/features/auth/model/selecto
 import { useRouter } from "next/navigation"
 import Image from "next/image"
 import type { AuthorProfile, StudentProfile } from "@/entities/user/model/types"
-import { VerifiedBadge } from "@/shared/ui/VerifiedBadge/VerifiedBadge"
+import { VerifiedStatusIcons } from "@/shared/ui/VerifiedStatusIcons/VerifiedStatusIcons"
 import {
   useFollowUserMutation,
   useUnfollowUserMutation,
@@ -44,11 +44,10 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ profile }) => {
 
   const isFollowing = followStatusData?.data?.isFollowing || false
 
-  const { _id, avatar, defaultAvatarPath, firstName, lastName,
-  location, placeWork, rating, isVerified, stats } = 
-     profile
+  const { _id, avatar, defaultAvatarPath, firstName, lastName, middleName,
+  location, placeWork, rating, isVerified, stats } = profile
 
-  const fullName = `${firstName} ${lastName}`
+  const fullName = `${firstName} ${lastName} ${middleName}`
 
   const getSpecializationText = () => {
     if (profile.role === "student") {
@@ -177,7 +176,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ profile }) => {
         <div className={styles.center}>
           <h1 className={styles.name}>
             {fullName}
-            {isVerified?.doctor && <VerifiedBadge className={styles.verifiedIcon} />}
+            <VerifiedStatusIcons isVerified={isVerified} className={styles.verifiedIconsContainer} />
           </h1>
           {specText && <div className={styles.specialization}>{specText}</div>}
           <div className={styles.meta}>

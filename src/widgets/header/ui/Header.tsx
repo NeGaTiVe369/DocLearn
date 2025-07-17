@@ -57,8 +57,8 @@ export default function Header() {
 
   const closeProfilePopup = () => setShowProfilePopup(false)
 
-  const handleLogout = () => {
-    dispatch(logoutUser())
+  const handleLogout = async () => {
+    await dispatch(logoutUser())
     setShowProfilePopup(false)
   }
 
@@ -102,7 +102,7 @@ export default function Header() {
             {showProfilePopup && (
               <div className={styles.profilePopup}>
                 <UserProfileCard
-                  name={`${user.firstName} ${user.lastName}`}
+                  name={`${user.firstName} ${user.lastName} ${user.middleName}`}
                   role={user.role === "student" ? "Студент" : user.role === "doctor" ? "Врач" : "Администратор"}
                   avatar={user.avatar}
                   defaultAvatarPath={user.defaultAvatarPath}

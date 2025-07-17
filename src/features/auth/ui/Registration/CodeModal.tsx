@@ -101,7 +101,6 @@ const CodeModal: React.FC<CodeModalProps> = ({ show, handleClose, email }) => {
         className={styles.closeButton}
         onClick={handleClose}
         aria-label="Закрыть"
-        disabled={loading}
       >
         <X size={20} />
       </button>
