@@ -3,7 +3,6 @@ import type { UpdateProfileRequest, UpdateProfileResponse, UploadAvatarResponse 
 
 const baseQuery = fetchBaseQuery({
   baseUrl: "https://api.doclearn.ru",
-  // baseUrl: "https://dl-back-756832582185.us-east1.run.app",
 
   prepareHeaders: (headers, { endpoint }) => {
     const refreshToken = localStorage.getItem("refreshToken")
@@ -32,9 +31,12 @@ export const profileEditApi = createApi({
         body: data,
       }),
       invalidatesTags: (result, _error, _arg) => {
-        const tags = [{ type: "Profile" as const, id: "LIST" }] 
+        const tags = [
+          { type: "Profile" as const, id: "LIST" },
+          { type: "Profile" as const, id: "ME" },
+        ] 
         if (result?.data?._id) {
-          tags.push({ type: "Profile", id: result.data._id }) 
+          tags.push({ type: "Profile", id: result.data._id })
         }
         return tags
       },
@@ -51,7 +53,10 @@ export const profileEditApi = createApi({
         }
       },
       invalidatesTags: (result, _error, _arg) => {
-        const tags = [{ type: "Profile" as const, id: "LIST" }]
+        const tags = [
+          { type: "Profile" as const, id: "LIST" },
+          { type: "Profile" as const, id: "ME" },
+        ]
         return tags
       },
     }),
@@ -77,7 +82,7 @@ export const profileEditApi = createApi({
         url: `/user/${userId}/is-following`,
         method: "GET",
       }),
-      providesTags: ["Profile"], 
+      providesTags: ["Profile"],
     }),
   }),
 })

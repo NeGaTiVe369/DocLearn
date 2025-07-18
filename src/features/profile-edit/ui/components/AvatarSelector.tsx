@@ -49,7 +49,6 @@ export const AvatarSelector: React.FC<AvatarSelectorProps>
     onUploadedFileChange(null)
   }
 
-
   const handleUploadSuccess = (file: File) => {
     onUploadedFileChange(file)
   }

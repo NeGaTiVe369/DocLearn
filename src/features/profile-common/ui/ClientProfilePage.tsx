@@ -18,10 +18,8 @@ export const ClientProfilePage: React.FC = () => {
   const isAuthenticated = useAppSelector(selectIsAuthenticated)
   const isInitialized = useAppSelector(selectIsInitialized)
 
-  // Определяем, смотрим ли мы свой профиль или чужой
   const isOwnProfile = isInitialized && isAuthenticated && currentUser?._id === userId
 
-  // Запрос чужого профиля (только если это не наш профиль)
   const {
     data: otherProfile,
     isLoading: isOtherProfileLoading,
@@ -30,23 +28,19 @@ export const ClientProfilePage: React.FC = () => {
     skip: !isInitialized || isOwnProfile,
   })
 
-  // Определяем данные профиля
   let profile: AuthorProfile | StudentProfile | undefined
   let isLoading: boolean
   let error: any
 
   if (!isInitialized) {
-    // Еще не инициализировались
     isLoading = true
     error = undefined
     profile = undefined
   } else if (isOwnProfile) {
-    // Свой профиль - используем данные из Redux
     isLoading = false
     error = undefined
     profile = currentUser as AuthorProfile | StudentProfile
   } else {
-    // Чужой профиль - используем данные из API
     isLoading = isOtherProfileLoading
     error = otherProfileError
     profile = otherProfile
