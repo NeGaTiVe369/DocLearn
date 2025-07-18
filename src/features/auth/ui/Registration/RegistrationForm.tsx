@@ -11,7 +11,7 @@ import { clearAuthError } from "@/features/auth/model/slice"
 import { selectLoading, selectError, selectRegistrationEmail } from "@/features/auth/model/selectors"
 import { FormInput } from "../inputs/FormInput"
 import { PasswordInput } from "../inputs/PasswordInput"
-import { validateName, validateEmail, validatePassword } from "@/shared/lib/validation"
+import { validateName, validateOptionalName, validateEmail, validatePassword } from "@/shared/lib/validation"
 import { errorMessages } from "@/shared/lib/errorMessages"
 import type { RegisterDto } from "@/features/auth/model/types"
 
@@ -113,13 +113,13 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ role, onSuccess }) 
 
       <FormInput
         name="middleName"
-        label="Отчество (если есть)"
+        label="Отчество"
         control={control}
         rules={{
-          validate: validateName, 
+          validate: validateOptionalName, 
         }}
         error={errors.middleName}
-        placeholder="Введите отчество"
+        placeholder="Введите отчество, если оно есть"
       />
 
       <FormInput
