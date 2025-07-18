@@ -18,8 +18,14 @@ interface ErrorResponse {
   message?: string
 }
 
+interface LoginResponse {
+  user: User
+  refreshToken: string
+}
+
 async function fetchProfile(): Promise<User> {
   const { data } = await http.get<UserResponse>("/user/me")
+  console.log("Данные от /user/me:", data.data)
   return data.data
 }
 
@@ -27,9 +33,9 @@ export const loginUser = createAsyncThunk<User, LoginDto, { rejectValue: string 
   "auth/loginUser",
   async (dto, { rejectWithValue }) => {
     try {
-      const response = await http.post<RefreshTokenResponse>("/auth/login", dto)
+      const response = await http.post<LoginResponse>("/auth/login", dto)
       localStorage.setItem("refreshToken", response.data.refreshToken)
-      return await fetchProfile()
+      return response.data.user
     } catch (err) {
       if (axios.isAxiosError(err) && err.response) {
         if (err.response.status === 400) {
@@ -64,9 +70,10 @@ export const verifyUserEmail = createAsyncThunk<User, VerifyDto, { rejectValue: 
   "auth/verifyUserEmail",
   async (dto, { rejectWithValue }) => {
     try {
-      const response = await http.post<RefreshTokenResponse>("/auth/verify-email", dto)
+      const response = await http.post<LoginResponse>("/auth/verify-email", dto)
+      console.log("verify-email: ",response)
       localStorage.setItem("refreshToken", response.data.refreshToken)
-      return await fetchProfile()
+      return response.data.user
     } catch (err) {
       if (axios.isAxiosError(err) && err.response) {
         if (err.response.status === 401) {
@@ -86,7 +93,7 @@ export const checkAuthStatus = createAsyncThunk<User | null>("auth/checkAuthStat
   try {
     const rt = localStorage.getItem("refreshToken")
     if (!rt) return null
-    await http.post("/auth/refresh", { refreshToken: rt })
+    // await http.post("/auth/refresh", { refreshToken: rt })
     return await fetchProfile()
   } catch {
     return null

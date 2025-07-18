@@ -196,6 +196,7 @@ export const ProfileEditForm: React.FC<ProfileEditFormProps> = ({ profile }) => 
               data={{
                 firstName: formData.firstName,
                 lastName: formData.lastName,
+                middleName: formData.middleName,
                 birthday: formData.birthday,
               }}
               onChange={updateField}
