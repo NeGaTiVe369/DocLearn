@@ -86,6 +86,11 @@ export const AvatarSelector: React.FC<AvatarSelectorProps>
           {/* <Plus size={16} /> */}
           Случайная аватарка
         </button>
+
+        {/* <button className={styles.addButton} onClick={() => setShowUploadModal(true)} type="button">
+          <Plus size={16} />
+          Загрузить с компьютера
+        </button> */}
       </div>
 
       {/* <Modal show={showModal} onHide={handleCancel} size="lg" centered>
