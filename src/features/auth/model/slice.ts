@@ -59,10 +59,10 @@ export const authSlice = createSlice({
             ...stats,
           }
         }
-        if (experience !== undefined && state.user.role === "doctor") {
+        if (experience !== undefined && state.user.role === "doctor" || state.user.role === "admin") {
           ;(state.user as any).experience = experience
         }
-        if (programType !== undefined && state.user.role === "student") {
+        if (programType !== undefined && state.user.role === "student" || state.user.role === "admin") {
           ;(state.user as any).programType = programType
         }
       }
