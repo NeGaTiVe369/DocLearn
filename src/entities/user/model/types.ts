@@ -15,6 +15,63 @@ export interface UserProfile {
   avatar: string
 }
 
+export type UserRole =
+  | "student"
+  | "doctor"
+  | "admin"
+  | "resident"      // ординатор
+  | "postgraduate"  // аспирант
+  | "researcher"; 
+
+export interface Contact {
+  _id: string
+  type: string
+  label?: string
+  value: string
+  isPublic?: boolean
+}
+
+export interface Education {
+  id: string
+  institution: string
+  degree: string
+  specialty: string
+  startDate: string
+  graduationYear: string
+  isCurrently: boolean
+}
+
+export interface Work {
+  id: string
+  organizationId?: string;
+  organizationName: string;
+  position: string;
+  startDate: string;
+  endDate?: string;
+  isCurrently: boolean;
+}
+
+export type AcademicDegree = "Кандидат медицинских наук" | "Доктор медицинских наук";
+export type AcademicTitle = "Доцент" | "Профессор";
+export type AcademicRank = "Член-корреспондент РАН" | "Академик РАН";
+
+export interface ScientificStatus {
+  degree: AcademicDegree | null;
+  title: AcademicTitle | null;
+  rank: AcademicRank | null;
+  interests: string[];
+}
+
+export type SpecializationMethod = "Ординатура" | "Профессиональная переподготовка";
+export type QualificationCategory = "Вторая категория" | "Первая категория" | "Высшая категория";
+
+export interface Specialization {
+  id: string;
+  name: string;
+  method: SpecializationMethod;
+  qualificationCategory: QualificationCategory;
+}
+
 export interface User {
   _id: string
   firstName: string
@@ -50,39 +107,6 @@ export interface User {
   education: Education[]
 }
 
-export interface Achievement {
-  id: string
-  title: string
-  description: string
-  earnedDate: string
-  category: "education" | "publication" | "rating" | "experience" | "other"
-}
-
-export interface Contact {
-  _id: string
-  type: string
-  label?: string
-  value: string
-  isPublic?: boolean
-}
-
-// export interface Contact1 {
-//   // type: "email" | "phone" | "website" | "vk" | "telegram" | "whatsapp" | "facebook" | "twitter" | "instagram" | string
-//   type: string
-//   value: string
-//   label?: string
-// }
-
-export interface Education {
-  id: string
-  institution: string
-  degree: string
-  specialty: string
-  startDate: string
-  graduationYear: string
-  isCurrently: boolean
-}
-
 export interface AuthorProfile extends User {
   experience: string
   courses?: Course[]
@@ -95,6 +119,21 @@ export interface StudentProfile extends User {
   mentorId?: string
   programType: "Бакалавриат" | "Магистратура" | "Ординатура" | "Аспирантура"
 }
+
+export interface Achievement {
+  id: string
+  title: string
+  description: string
+  earnedDate: string
+  category: "education" | "publication" | "rating" | "experience" | "other"
+}
+
+// export interface Contact1 {
+//   // type: "email" | "phone" | "website" | "vk" | "telegram" | "whatsapp" | "facebook" | "twitter" | "instagram" | string
+//   type: string
+//   value: string
+//   label?: string
+// }
 
 // export interface UpcomingEvent {
 //   id: string
