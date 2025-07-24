@@ -2,6 +2,7 @@
   import { configureHttp } from "@/shared/api/http"
   import { logoutUser } from "@/features/auth/model/thunks"
   import authReducer from "@/features/auth/model/slice"
+  import newAuthReducer from "@/features/auth/model/newSlice"
   import passwordRecoveryReducer from "@/features/auth/passwordRecovery/model/slice"
   import { authorProfileApi } from "@/features/author-profile/api/authorProfileApi"
   import { profileEditApi } from "@/features/profile-edit/api/profileEditApi"
@@ -9,6 +10,7 @@
   export const store = configureStore({
     reducer: {
       auth: authReducer,
+      newAuth: newAuthReducer,
       passwordRecovery: passwordRecoveryReducer,
       [authorProfileApi.reducerPath]: authorProfileApi.reducer,
       [profileEditApi.reducerPath]: profileEditApi.reducer,
