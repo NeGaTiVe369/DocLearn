@@ -72,6 +72,22 @@ export interface Specialization {
   qualificationCategory: QualificationCategory;
 }
 
+export interface AvatarFile {
+  _id: string
+  fileName: string
+  originalName: string
+  fileType: string
+  size: number
+  mimetype: string
+  userId: string
+  uploadedAt: string
+  isDeleted: boolean
+  createdAt: string
+  updatedAt: string
+  __v: number
+}
+
+
 export interface User {
   _id: string
   firstName: string
@@ -91,6 +107,7 @@ export interface User {
   defaultAvatarPath: string
   avatarUrl?: string
   avatarUrlTimestamp?: number
+  avatarId?: AvatarFile
   location: string
   followers: string[]
   following: string[]
