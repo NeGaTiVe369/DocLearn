@@ -13,7 +13,7 @@ import { FormInput } from "../inputs/FormInput"
 import { PasswordInput } from "../inputs/PasswordInput"
 import { validateName, validateOptionalName, validateEmail, validatePassword } from "@/shared/lib/validation"
 import { errorMessages } from "@/shared/lib/errorMessages"
-import type { RegisterSpecialistDto } from "@/features/auth/model/newTypes"
+import type { RegisterSpecialistDto } from "@/features/auth/model/types"
 
 interface SpecialistRegistrationFormData extends Omit<RegisterSpecialistDto, "defaultAvatarPath" | "accountType"> {
   confirmPassword: string
@@ -72,23 +72,11 @@ const SpecialistRegistrationForm: React.FC<SpecialistRegistrationFormProps> = ({
     console.log(">> Specialist Registration payload:", {
       formattedData,
     })
-    // dispatch(registerUser(formattedData))
+    dispatch(registerUser(formattedData))
   }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.authForm}>
-      <FormInput
-        name="firstName"
-        label="Имя"
-        control={control}
-        rules={{
-          required: errorMessages.required,
-          validate: validateName,
-        }}
-        error={errors.firstName}
-        placeholder="Введите имя"
-      />
-
       <FormInput
         name="lastName"
         label="Фамилия"
@@ -99,6 +87,18 @@ const SpecialistRegistrationForm: React.FC<SpecialistRegistrationFormProps> = ({
         }}
         error={errors.lastName}
         placeholder="Введите фамилию"
+      />
+
+      <FormInput
+        name="firstName"
+        label="Имя"
+        control={control}
+        rules={{
+          required: errorMessages.required,
+          validate: validateName,
+        }}
+        error={errors.firstName}
+        placeholder="Введите имя"
       />
 
       <FormInput
