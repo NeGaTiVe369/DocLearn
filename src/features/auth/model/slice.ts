@@ -1,10 +1,10 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit"
 import { loginUser, registerUser, verifyUserEmail, checkAuthStatus, logoutUser } from "./thunks"
-import type { User} from "@/entities/user/model/types"
-import type { UpdateUserFieldsPayload } from "./types"
+import type { SpecialistUser, Document } from "@/entities/user/model/types"
+import type { UpdateSpecialistFieldsPayload } from "./types"
 
 interface AuthState {
-  user: User | null
+  user: SpecialistUser | null
   isAuthenticated: boolean
   isLoading: boolean
   error: string | null
@@ -26,7 +26,7 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     clearAuthError(state) {
-      state.error = null 
+      state.error = null
     },
     setRegistrationEmail(state, action: PayloadAction<string>) {
       state.registrationEmail = action.payload
@@ -34,9 +34,9 @@ export const authSlice = createSlice({
     clearRegistrationEmail(state) {
       state.registrationEmail = null
     },
-    updateUserFields(state, action: PayloadAction<UpdateUserFieldsPayload>) {
+    updateUserFields(state, action: PayloadAction<UpdateSpecialistFieldsPayload>) {
       if (state.user) {
-        const { defaultAvatarPath, location, birthday, bio, contacts, experience, programType, stats } = action.payload
+        const { defaultAvatarPath, location, birthday, bio, contacts, experience, stats, placeStudy, placeWork, role } = action.payload
 
         if (defaultAvatarPath !== undefined) {
           state.user.defaultAvatarPath = defaultAvatarPath
@@ -59,21 +59,40 @@ export const authSlice = createSlice({
             ...stats,
           }
         }
-        if (experience !== undefined && state.user.role === "doctor" || state.user.role === "admin") {
-          ;(state.user as any).experience = experience
+        if (experience !== undefined) {
+          state.user.experience = experience
         }
-        if (programType !== undefined && state.user.role === "student" || state.user.role === "admin") {
-          ;(state.user as any).programType = programType
+        if (placeStudy !== undefined) {
+          state.user.placeStudy = placeStudy
         }
+        if (placeWork !== undefined) {
+          state.user.placeWork = placeWork
+        }
+        if (role !== undefined && role !== state.user.role) {
+          state.user.role = role
+        }
+      }
+    },
+    addDocument(state, action: PayloadAction<Document>) {
+      if (state.user) {
+        if (!state.user.documents) {
+          state.user.documents = []
+        }
+        state.user.documents.push(action.payload)
+      }
+    },
+    removeDocument(state, action: PayloadAction<string>) {
+      if (state.user && state.user.documents) {
+        state.user.documents = state.user.documents.filter((doc) => doc._id !== action.payload)
       }
     },
   },
   extraReducers: (b) =>
     b
       // loginUser
-      .addCase(loginUser.pending, (s) => { 
-        s.isLoading = true  
-        s.error = null 
+      .addCase(loginUser.pending, (s) => {
+        s.isLoading = true
+        s.error = null
       })
       .addCase(loginUser.fulfilled, (s, { payload }) => {
         s.isLoading = false
@@ -86,12 +105,12 @@ export const authSlice = createSlice({
       })
 
       // registerUser
-      .addCase(registerUser.pending, (s) => { 
-        s.isLoading = true  
-        s.error = null 
+      .addCase(registerUser.pending, (s) => {
+        s.isLoading = true
+        s.error = null
       })
-      .addCase(registerUser.fulfilled, (s) => { 
-        s.isLoading = false 
+      .addCase(registerUser.fulfilled, (s) => {
+        s.isLoading = false
       })
       .addCase(registerUser.rejected, (s, { payload }) => {
         s.isLoading = false
@@ -99,9 +118,9 @@ export const authSlice = createSlice({
       })
 
       // verifyUserEmail
-      .addCase(verifyUserEmail.pending, (s) => { 
-        s.isLoading = true  
-        s.error = null 
+      .addCase(verifyUserEmail.pending, (s) => {
+        s.isLoading = true
+        s.error = null
       })
       .addCase(verifyUserEmail.fulfilled, (s, { payload }) => {
         s.isLoading = false
@@ -115,8 +134,8 @@ export const authSlice = createSlice({
       })
 
       // checkAuthStatus
-      .addCase(checkAuthStatus.pending, (s) => { 
-        s.isLoading = true 
+      .addCase(checkAuthStatus.pending, (s) => {
+        s.isLoading = true
       })
       .addCase(checkAuthStatus.fulfilled, (s, { payload }) => {
         s.isLoading = false
@@ -124,8 +143,8 @@ export const authSlice = createSlice({
         s.isAuthenticated = Boolean(payload)
         s.isInitialized = true
       })
-      .addCase(checkAuthStatus.rejected, (s) => { 
-        s.isLoading = false 
+      .addCase(checkAuthStatus.rejected, (s) => {
+        s.isLoading = false
         s.isInitialized = true
         s.user = null
         s.isAuthenticated = false
@@ -138,5 +157,12 @@ export const authSlice = createSlice({
       }),
 })
 
-export const { clearAuthError, setRegistrationEmail, clearRegistrationEmail, updateUserFields } = authSlice.actions
+export const {
+  clearAuthError,
+  setRegistrationEmail,
+  clearRegistrationEmail,
+  updateUserFields,
+  addDocument,
+  removeDocument,
+} = authSlice.actions
 export default authSlice.reducer

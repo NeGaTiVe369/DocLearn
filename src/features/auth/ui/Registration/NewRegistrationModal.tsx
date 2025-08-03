@@ -12,7 +12,7 @@ import OrganizationRegistrationForm from "./OrganizationRegistrationForm"
 import CodeModal from "./CodeModal"
 import styles from "../styles/AuthModal.module.css"
 import Image from "next/image"
-import type { AccountType } from "@/features/auth/model/newTypes"
+import type { AccountType } from "@/features/auth/model/types"
 
 interface NewRegistrationModalProps {
   show: boolean

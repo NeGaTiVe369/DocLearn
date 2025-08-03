@@ -35,6 +35,7 @@ export default function RootLayout({
         <Providers>
           <Header />
           {children}
+          {/* <div style={{ paddingBottom: "60px" }}>{children}</div> */}
           <BottomNavigationWrapper />
         </Providers>
       </body>

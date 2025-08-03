@@ -9,7 +9,7 @@ import { FormInput } from "../inputs/FormInput"
 import { PasswordInput } from "../inputs/PasswordInput"
 import { validateEmail, validatePassword } from "@/shared/lib/validation"
 import { errorMessages } from "@/shared/lib/errorMessages"
-import type { RegisterOrganizationDto } from "@/features/auth/model/newTypes"
+import type { RegisterOrganizationDto } from "@/features/auth/model/types"
 
 interface OrganizationRegistrationFormData extends Omit<RegisterOrganizationDto, "accountType"> {
   confirmPassword: string
@@ -58,10 +58,9 @@ const OrganizationRegistrationForm: React.FC<OrganizationRegistrationFormProps> 
     console.log(">> Organization Registration payload (UI only):", data)
     setIsLoading(true)
 
-    // Имитируем отправку формы
     setTimeout(() => {
       setIsLoading(false)
-      onSuccess() // Просто закрываем модальное окно
+      onSuccess()
     }, 1000)
   }
 
