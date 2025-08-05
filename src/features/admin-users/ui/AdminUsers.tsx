@@ -52,9 +52,9 @@ const mockUsers = [
     email: "dmitry.kozlov@example.com",
     avatar: "/Avatars/Avatar4.webp",
     defaultAvatarPath: "/Avatars/Avatar4.webp",
-    role: "student" as const,
+    role: "resident" as const,
     status: "active" as const,
-    isVerified: { doctor: false, user: false, student: false },
+    isVerified: { doctor: false, user: false, student: false, resident: true },
     createdAt: "2024-01-12",
     lastActive: "2024-01-21",
   },
@@ -71,9 +71,48 @@ const mockUsers = [
     createdAt: "2023-12-20",
     lastActive: "2024-01-21",
   },
+  {
+    id: "6",
+    firstName: "Александр",
+    lastName: "Петров",
+    email: "alexander.petrov@example.com",
+    avatar: "/Avatars/Avatar1.webp",
+    defaultAvatarPath: "/Avatars/Avatar1.webp",
+    role: "postgraduate" as const,
+    status: "active" as const,
+    isVerified: { doctor: false, user: true, student: false, postgraduate: true },
+    createdAt: "2024-01-08",
+    lastActive: "2024-01-20",
+  },
+  {
+    id: "7",
+    firstName: "Мария",
+    lastName: "Исследователь",
+    email: "maria.researcher@example.com",
+    avatar: "/Avatars/Avatar2.webp",
+    defaultAvatarPath: "/Avatars/Avatar2.webp",
+    role: "researcher" as const,
+    status: "active" as const,
+    isVerified: { doctor: false, user: true, student: false, researcher: true },
+    createdAt: "2024-01-03",
+    lastActive: "2024-01-19",
+  },
+  {
+    id: "8",
+    firstName: "Владимир",
+    lastName: "Владелец",
+    email: "vladimir.owner@example.com",
+    avatar: "/Avatars/Avatar3.webp",
+    defaultAvatarPath: "/Avatars/Avatar3.webp",
+    role: "owner" as const,
+    status: "active" as const,
+    isVerified: { doctor: false, user: true, student: false },
+    createdAt: "2023-11-15",
+    lastActive: "2024-01-21",
+  },
 ]
 
-type UserRole = "all" | "student" | "doctor" | "admin"
+type UserRole = "all" | "student" | "resident" | "postgraduate" | "doctor" | "researcher" | "admin" | "owner"
 type UserStatus = "all" | "active" | "blocked"
 
 export function AdminUsers() {
@@ -81,26 +120,34 @@ export function AdminUsers() {
   const [roleFilter, setRoleFilter] = useState<UserRole>("all")
   const [statusFilter, setStatusFilter] = useState<UserStatus>("all")
 
-  // const filteredUsers = mockUsers.filter((user) => {
-  //   const matchesSearch =
-  //     user.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  //     user.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  //     user.email.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredUsers = mockUsers.filter((user) => {
+    const matchesSearch =
+      user.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.email.toLowerCase().includes(searchTerm.toLowerCase())
 
-  //   const matchesRole = roleFilter === "all" || user.role === roleFilter
-  //   const matchesStatus = statusFilter === "all" || user.status === statusFilter
+    const matchesRole = roleFilter === "all" || user.role === roleFilter
+    const matchesStatus = statusFilter === "all" || user.status === statusFilter
 
-  //   return matchesSearch && matchesRole && matchesStatus
-  // })
+    return matchesSearch && matchesRole && matchesStatus
+  })
 
   const getRoleBadgeClass = (role: string) => {
     switch (role) {
       case "student":
         return styles.roleStudent
+      case "resident":
+        return styles.roleStudent // используем тот же стиль что и для студента
+      case "postgraduate":
+        return styles.roleDoctor // используем стиль врача для аспиранта
       case "doctor":
         return styles.roleDoctor
+      case "researcher":
+        return styles.roleDoctor // используем стиль врача для исследователя
       case "admin":
         return styles.roleAdmin
+      case "owner":
+        return styles.roleAdmin // используем тот же стиль что и для админа
       default:
         return styles.roleStudent
     }
@@ -121,10 +168,18 @@ export function AdminUsers() {
     switch (role) {
       case "student":
         return "Студент"
+      case "resident":
+        return "Ординатор"
+      case "postgraduate":
+        return "Аспирант"
       case "doctor":
         return "Врач"
+      case "researcher":
+        return "Научный сотрудник"
       case "admin":
         return "Админ"
+      case "owner":
+        return "Владелец"
       default:
         return role
     }
@@ -187,8 +242,12 @@ export function AdminUsers() {
         >
           <option value="all">Все роли</option>
           <option value="student">Студенты</option>
+          <option value="resident">Ординаторы</option>
+          <option value="postgraduate">Аспиранты</option>
           <option value="doctor">Врачи</option>
+          <option value="researcher">Научные сотрудники</option>
           <option value="admin">Администраторы</option>
+          <option value="owner">Владельцы</option>
         </select>
 
         <select
@@ -202,7 +261,7 @@ export function AdminUsers() {
         </select>
       </div>
 
-      {mockUsers.length === 0 ? (
+      {filteredUsers.length === 0 ? (
         <div className={styles.placeholder}>
           <Users size={48} className={styles.placeholderIcon} />
           <h3 className={styles.placeholderTitle}>Пользователи не найдены</h3>
@@ -222,7 +281,7 @@ export function AdminUsers() {
               </tr>
             </thead>
             <tbody>
-              {mockUsers.map((user) => (
+              {filteredUsers.map((user) => (
                 <tr key={user.id} className={styles.tableRow}>
                   <td className={styles.tableCell}>
                     <div className={styles.userInfo}>
@@ -252,9 +311,12 @@ export function AdminUsers() {
                     </span>
                   </td>
                   <td className={styles.tableCell}>
-                    {(user.isVerified.doctor || user.isVerified.user || user.isVerified.student) && (
-                      <CheckCircle size={16} className={styles.verifiedIcon} />
-                    )}
+                    {(user.isVerified.doctor ||
+                      user.isVerified.user ||
+                      user.isVerified.student ||
+                      user.isVerified.resident ||
+                      user.isVerified.postgraduate ||
+                      user.isVerified.researcher) && <CheckCircle size={16} className={styles.verifiedIcon} />}
                   </td>
                   <td className={styles.tableCell}>{formatDate(user.createdAt)}</td>
                   <td className={styles.tableCell}>
@@ -289,11 +351,11 @@ export function AdminUsers() {
         </div>
       )}
 
-      {/* <div className={styles.pagination}>
+      <div className={styles.pagination}>
         <span className={styles.paginationInfo}>
           Показано {filteredUsers.length} из {mockUsers.length} пользователей
         </span>
-      </div> */}
+      </div>
     </div>
   )
 }
