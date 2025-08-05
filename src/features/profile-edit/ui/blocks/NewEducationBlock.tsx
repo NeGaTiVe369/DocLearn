@@ -132,7 +132,8 @@ export const NewEducationBlock: React.FC<NewEducationBlockProps> = ({
       }
     }
 
-    if ((fieldTouched.graduationYear || attemptedSave) && !edu.isCurrently) {
+    // Год окончания теперь всегда обязателен
+    if (fieldTouched.graduationYear || attemptedSave) {
       if (!edu.graduationYear) {
         errors.graduationYear = "Год окончания обязателен"
       } else {
@@ -142,9 +143,8 @@ export const NewEducationBlock: React.FC<NewEducationBlockProps> = ({
           errors.graduationYear = "Год окончания должен быть числом"
         } else if (graduation < startYear) {
           errors.graduationYear = "Год окончания не может быть раньше года начала"
-        } else if (graduation > currentYear) {
-          errors.graduationYear = "Год окончания не может быть в будущем"
         }
+        // Убрали проверку на будущее время
       }
     }
 
@@ -169,7 +169,7 @@ export const NewEducationBlock: React.FC<NewEducationBlockProps> = ({
           !edu.degree.trim() ||
           !edu.specialty.trim() ||
           !edu.startDate ||
-          (!edu.isCurrently && !edu.graduationYear)
+          !edu.graduationYear // Год окончания теперь всегда обязателен
         ) {
           hasErrors = true
         }
@@ -213,14 +213,6 @@ export const NewEducationBlock: React.FC<NewEducationBlockProps> = ({
               <div className={styles.educationHeader}>
                 <GraduationCap size={20} className={styles.educationIcon} />
                 <span className={styles.educationNumber}>Образование {index + 1}</span>
-                {/* <Button 
-                  variant="primary" 
-                  onClick={() => setShowUploadModal(true)}
-                  className={styles.uploadButton}
-                >
-                  <Upload size={16} className={styles.uploadIcon} />
-                  Подтвердить образование
-                </Button> */}
                 <Button
                   variant="outline-danger"
                   size="sm"
@@ -286,7 +278,7 @@ export const NewEducationBlock: React.FC<NewEducationBlockProps> = ({
                       onChange={(e) => updateEducation(index, "startDate", e.target.value)}
                       onBlur={() => handleFieldBlur(index, "startDate")}
                       className={`${styles.input} ${errors.startDate ? styles.inputError : ""}`}
-                      placeholder="Например: 2020"
+                      placeholder="2020"
                     />
                     {errors.startDate && <div className={styles.errorText}>{errors.startDate}</div>}
                   </Form.Group>
@@ -296,13 +288,11 @@ export const NewEducationBlock: React.FC<NewEducationBlockProps> = ({
                     <Form.Control
                       type="number"
                       min="1950"
-                      max={currentYear}
                       value={edu.graduationYear || ""}
                       onChange={(e) => updateEducation(index, "graduationYear", e.target.value)}
                       onBlur={() => handleFieldBlur(index, "graduationYear")}
                       className={`${styles.input} ${errors.graduationYear ? styles.inputError : ""}`}
-                      placeholder="Например: 2024"
-                      disabled={edu.isCurrently}
+                      placeholder="2024"
                     />
                     {errors.graduationYear && <div className={styles.errorText}>{errors.graduationYear}</div>}
                   </Form.Group>
@@ -315,26 +305,7 @@ export const NewEducationBlock: React.FC<NewEducationBlockProps> = ({
                     label="Обучаюсь в настоящее время"
                     checked={edu.isCurrently || false}
                     onChange={(e) => {
-                      const isChecked = e.target.checked
-                      const newEducation = [...education]
-                      const updatedEduItem = { ...newEducation[index] }
-
-                      updatedEduItem.isCurrently = isChecked
-                      if (isChecked) {
-                        updatedEduItem.graduationYear = ""
-                        const newTouchedFields = {
-                          ...touchedFields,
-                          [index]: {
-                            ...touchedFields[index],
-                            graduationYear: false,
-                          },
-                        }
-                        setTouchedFields(newTouchedFields)
-                      }
-
-                      newEducation[index] = updatedEduItem
-                      onChange("education", newEducation)
-                      checkValidation(newEducation, touchedFields)
+                      updateEducation(index, "isCurrently", e.target.checked)
                     }}
                     className={styles.checkbox}
                   />

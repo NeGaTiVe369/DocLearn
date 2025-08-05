@@ -127,11 +127,7 @@ const isValidContact = (contact: Contact): boolean => {
 
 const isValidEducation = (edu: Education): boolean => {
   return Boolean(
-    edu.institution.trim() &&
-      edu.degree.trim() &&
-      edu.specialty.trim() &&
-      edu.startDate &&
-      (edu.isCurrently || edu.graduationYear),
+    edu.institution.trim() && edu.degree.trim() && edu.specialty.trim() && edu.startDate && edu.graduationYear, // Убрали проверку isCurrently, теперь graduationYear всегда обязателен
   )
 }
 
@@ -469,26 +465,16 @@ export const useNewFormChanges = (initialData: SpecialistUser) => {
         }
       } else if (key === "education" && Array.isArray(value)) {
         const validEducation = (value as Education[]).filter(isValidEducation).map(({ _id, ...rest }) => {
-          if (rest.isCurrently) {
-            const { graduationYear, ...educationWithoutGraduationYear } = rest
-            return educationWithoutGraduationYear
-          }
           return rest
         })
         if (validEducation.length > 0) {
           cleanedData[key] = validEducation
         }
       } else if (key === "education" && !Array.isArray(value)) {
-        // Для студентов - одиночный объект образования
         const education = value as Education
         if (isValidEducation(education)) {
           const { _id, ...rest } = education
-          if (rest.isCurrently) {
-            const { graduationYear, ...educationWithoutGraduationYear } = rest
-            cleanedData[key] = educationWithoutGraduationYear
-          } else {
-            cleanedData[key] = rest
-          }
+          cleanedData[key] = rest
         }
       } else if (key === "workHistory" && Array.isArray(value)) {
         const validWork = (value as Work[]).filter(isValidWork).map(({ id, ...rest }) => rest)
@@ -644,20 +630,20 @@ export const useNewFormChanges = (initialData: SpecialistUser) => {
 
       if (error?.status === 401 || error?.data?.code === "MISSING_TOKEN") {
         try {
-          const authResult = await dispatch(checkAuthStatus()).unwrap();
+          const authResult = await dispatch(checkAuthStatus()).unwrap()
           if (authResult) {
-            console.log("Token refreshed, retrying save...");
-            return await handleSave();
+            console.log("Token refreshed, retrying save...")
+            return await handleSave()
           } else {
-            setSaveStatus("error");
-            setErrorMessage("Сессия истекла. Необходимо войти заново.");
-            return { success: false, shouldRedirect: false };
+            setSaveStatus("error")
+            setErrorMessage("Сессия истекла. Необходимо войти заново.")
+            return { success: false, shouldRedirect: false }
           }
         } catch (authError) {
-          console.error("Auth refresh error:", authError);
-          setSaveStatus("error");
-          setErrorMessage("Сессия истекла. Необходимо войти заново.");
-          return { success: false, shouldRedirect: false };
+          console.error("Auth refresh error:", authError)
+          setSaveStatus("error")
+          setErrorMessage("Сессия истекла. Необходимо войти заново.")
+          return { success: false, shouldRedirect: false }
         }
       } else {
         setErrorMessage(error?.data?.error || error?.data?.message || "Произошла ошибка при сохранении профиля")
