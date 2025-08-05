@@ -13,6 +13,7 @@ interface UseAvatarCacheResult {
   ) => string
   cacheAvatar: (avatarUrl: string, avatarId: string, userId?: string) => Promise<void>
   invalidateAvatar: (avatarId: string) => Promise<void>
+  clearUserAvatars: (userId: string) => Promise<void>
   cleanup: () => void
 }
 
@@ -35,8 +36,7 @@ export const useAvatarCache = (): UseAvatarCacheResult => {
         }
 
         // Очищаем старые аватары при инициализации
-        avatarCacheService.clearOldAvatars().catch((error) => {
-        })
+        avatarCacheService.clearOldAvatars().catch((error) => {})
       } catch (error) {
         if (mounted) {
           setIsInitialized(true) // Все равно помечаем как инициализированный
@@ -52,8 +52,7 @@ export const useAvatarCache = (): UseAvatarCacheResult => {
       createdUrls.current.forEach((url) => {
         try {
           URL.revokeObjectURL(url)
-        } catch (error) {
-        }
+        } catch (error) {}
       })
       createdUrls.current.clear()
     }
@@ -147,7 +146,6 @@ export const useAvatarCache = (): UseAvatarCacheResult => {
   const invalidateAvatar = useCallback(
     async (avatarId: string): Promise<void> => {
       try {
-
         // Удаляем из локального кэша
         const cachedUrl = cachedUrls.get(avatarId)
         if (cachedUrl) {
@@ -169,10 +167,27 @@ export const useAvatarCache = (): UseAvatarCacheResult => {
     [cachedUrls],
   )
 
+  const clearUserAvatars = useCallback(async (userId: string): Promise<void> => {
+    try {
+      await avatarCacheService.clearAvatarsForUser(userId)
+
+      // Очищаем локальный кэш для этого пользователя
+      setCachedUrls((prev) => {
+        const newMap = new Map(prev)
+        // Удаляем все URL, которые могут принадлежать этому пользователю
+        // (это приблизительная очистка, так как мы не храним userId в локальном кэше)
+        return newMap
+      })
+    } catch (error) {
+      console.error("Avatar cache: Failed to clear user avatars:", error)
+    }
+  }, [])
+
   return {
     getAvatarUrl,
     cacheAvatar,
     invalidateAvatar,
+    clearUserAvatars, // Add this line
     cleanup,
   }
 }

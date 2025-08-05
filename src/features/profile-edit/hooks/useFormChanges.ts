@@ -135,7 +135,7 @@ const normalizeEducationForRole = (education: Education[], role: string): Educat
     return education.length > 0
       ? education[0]
       : {
-          id: "",
+          _id: "",
           institution: "",
           degree: "Специалитет",
           specialty: "",
@@ -286,7 +286,7 @@ export const useFormChanges = (initialData: SpecialistUser) => {
           cleanedData[key] = validContacts
         }
       } else if (key === "education" && Array.isArray(value)) {
-        const validEducation = (value as Education[]).filter(isValidEducation).map(({ id, ...rest }) => {
+        const validEducation = (value as Education[]).filter(isValidEducation).map(({ _id, ...rest }) => {
           if (rest.isCurrently) {
             const { graduationYear, ...educationWithoutGraduationYear } = rest
             return educationWithoutGraduationYear
@@ -300,7 +300,7 @@ export const useFormChanges = (initialData: SpecialistUser) => {
         // Для студентов - одиночный объект образования
         const education = value as Education
         if (isValidEducation(education)) {
-          const { id, ...rest } = education
+          const { _id, ...rest } = education
           if (rest.isCurrently) {
             const { graduationYear, ...educationWithoutGraduationYear } = rest
             cleanedData[key] = educationWithoutGraduationYear
