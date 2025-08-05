@@ -1,9 +1,9 @@
 "use client"
 
 import type React from "react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Form, Button, Alert } from "react-bootstrap"
-import { Plus, Trash2, GraduationCap, Upload } from "lucide-react"
+import { Plus, Trash2, GraduationCap } from "lucide-react"
 import type { Education, SpecialistUser } from "@/entities/user/model/types"
 import type { SpecialistRole } from "@/entities/user/model/types"
 import styles from "./FormBlock.module.css"
@@ -15,6 +15,7 @@ interface NewEducationBlockProps {
   onChange: (field: ProfileKeys, value: any) => void
   onValidationChange?: (hasErrors: boolean) => void
   role?: SpecialistRole
+  attemptedSave?: boolean
 }
 
 interface FieldTouched {
@@ -32,13 +33,18 @@ export const NewEducationBlock: React.FC<NewEducationBlockProps> = ({
   onChange,
   onValidationChange,
   role = "student",
+  attemptedSave = false,
 }) => {
   const currentYear = new Date().getFullYear()
   const [touchedFields, setTouchedFields] = useState<FieldTouched>({})
-  const [showUploadModal, setShowUploadModal] = useState(false)
 
   const isStudent = role === "student"
   const canAddMore = !isStudent || education.length === 0
+
+  // Пересчитываем валидацию при изменении attemptedSave
+  useEffect(() => {
+    checkValidation(education, touchedFields)
+  }, [attemptedSave])
 
   const addEducation = () => {
     if (isStudent && education.length >= 1) return
@@ -99,19 +105,19 @@ export const NewEducationBlock: React.FC<NewEducationBlockProps> = ({
     const errors: Record<string, string> = {}
     const fieldTouched = touched[index] || {}
 
-    if (fieldTouched.institution && edu.institution.trim() === "") {
+    if ((fieldTouched.institution || attemptedSave) && edu.institution.trim() === "") {
       errors.institution = "Учебное заведение обязательно"
     }
 
-    if (fieldTouched.degree && edu.degree.trim() === "") {
+    if ((fieldTouched.degree || attemptedSave) && edu.degree.trim() === "") {
       errors.degree = "Степень/Квалификация обязательна"
     }
 
-    if (fieldTouched.specialty && edu.specialty.trim() === "") {
+    if ((fieldTouched.specialty || attemptedSave) && edu.specialty.trim() === "") {
       errors.specialty = "Специальность обязательна"
     }
 
-    if (fieldTouched.startDate) {
+    if (fieldTouched.startDate || attemptedSave) {
       if (!edu.startDate) {
         errors.startDate = "Год начала обязателен"
       } else {
@@ -126,7 +132,7 @@ export const NewEducationBlock: React.FC<NewEducationBlockProps> = ({
       }
     }
 
-    if (fieldTouched.graduationYear && !edu.isCurrently) {
+    if ((fieldTouched.graduationYear || attemptedSave) && !edu.isCurrently) {
       if (!edu.graduationYear) {
         errors.graduationYear = "Год окончания обязателен"
       } else {
@@ -155,17 +161,20 @@ export const NewEducationBlock: React.FC<NewEducationBlockProps> = ({
       }
     })
 
-    educationList.forEach((edu) => {
-      if (
-        !edu.institution.trim() ||
-        !edu.degree.trim() ||
-        !edu.specialty.trim() ||
-        !edu.startDate ||
-        (!edu.isCurrently && !edu.graduationYear)
-      ) {
-        hasErrors = true
-      }
-    })
+    // При attemptedSave проверяем все незаполненные поля
+    if (attemptedSave) {
+      educationList.forEach((edu) => {
+        if (
+          !edu.institution.trim() ||
+          !edu.degree.trim() ||
+          !edu.specialty.trim() ||
+          !edu.startDate ||
+          (!edu.isCurrently && !edu.graduationYear)
+        ) {
+          hasErrors = true
+        }
+      })
+    }
 
     onValidationChange?.(hasErrors)
   }

@@ -56,6 +56,8 @@ export const NewProfileEditForm: React.FC<NewProfileEditFormProps> = ({ profile 
     setWorkHistoryErrors,
     setScientificStatusErrors,
     setSpecializationsErrors,
+    attemptedSave,
+    setAttemptedSave,
   } = useNewFormChanges(profile)
 
   // Функция для сброса defaultAvatarPath к исходному значению
@@ -66,6 +68,19 @@ export const NewProfileEditForm: React.FC<NewProfileEditFormProps> = ({ profile 
   // Модифицированный handleSave с поддержкой аватара и правильным переходом
   const handleSave = async () => {
     try {
+      // Устанавливаем флаг попытки сохранения для показа всех ошибок
+      setAttemptedSave(true)
+
+      // Ждем следующий тик, чтобы состояние обновилось и блоки пересчитали ошибки
+      await new Promise((resolve) => setTimeout(resolve, 100))
+
+      // Синхронная проверка всех данных на ошибки
+      const hasErrors = checkFormValidation()
+      if (hasErrors) {
+        console.log("Validation errors found, not sending any requests")
+        return
+      }
+
       setAvatarSaveStatus("idle")
       setAvatarErrorMessage("")
 
@@ -107,7 +122,7 @@ export const NewProfileEditForm: React.FC<NewProfileEditFormProps> = ({ profile 
       const profileResult = await hookHandleSave()
       profileUpdated = profileResult.success
 
-      // Переходим на страницу профиля если что-то было успешно сохранено
+      // Переходим на страницу профиля только если что-то было успешно сохранено
       if (avatarUploaded || (profileUpdated && profileResult.shouldRedirect)) {
         await redirectToProfile()
       }
@@ -116,11 +131,105 @@ export const NewProfileEditForm: React.FC<NewProfileEditFormProps> = ({ profile 
     }
   }
 
+  // Функция для синхронной проверки всех данных на ошибки
+  const checkFormValidation = (): boolean => {
+    let hasErrors = false
+
+    // Функции валидации (копируем из хука)
+    const isValidContact = (contact: any): boolean => {
+      return Boolean(contact.value && contact.value.trim() !== "")
+    }
+
+    const isValidEducation = (edu: any): boolean => {
+      return Boolean(
+        edu.institution.trim() &&
+          edu.degree.trim() &&
+          edu.specialty.trim() &&
+          edu.startDate &&
+          (edu.isCurrently || edu.graduationYear),
+      )
+    }
+
+    const isValidWork = (work: any): boolean => {
+      return Boolean(
+        work.organizationName.trim() && work.position.trim() && work.startDate && (work.isCurrently || work.endDate),
+      )
+    }
+
+    const isValidSpecialization = (spec: any): boolean => {
+      return Boolean(spec.name.trim() && spec.method && spec.qualificationCategory)
+    }
+
+    // Нормализация образования в массив
+    const normalizeEducationToArray = (education: any): any[] => {
+      if (Array.isArray(education)) {
+        return education
+      }
+      if (education.institution || education.degree || education.specialty) {
+        return [education]
+      }
+      return []
+    }
+
+    // Проверяем образование
+    const educationArray = normalizeEducationToArray(formData.education)
+    if (educationArray.length > 0) {
+      educationArray.forEach((edu) => {
+        if (!isValidEducation(edu)) {
+          hasErrors = true
+        }
+      })
+    }
+
+    // Проверяем контакты
+    const contacts = formData.contacts || []
+    if (contacts.length > 0) {
+      contacts.forEach((contact) => {
+        if (!isValidContact(contact)) {
+          hasErrors = true
+        }
+      })
+    }
+
+    // Проверяем историю работы
+    const workHistory = formData.workHistory || []
+    if (workHistory.length > 0) {
+      workHistory.forEach((work) => {
+        if (!isValidWork(work)) {
+          hasErrors = true
+        }
+      })
+    }
+
+    // Проверяем научный статус для соответствующих ролей
+    if (formData.role === "postgraduate" || formData.role === "doctor" || formData.role === "researcher") {
+      const scientificStatus = "scientificStatus" in formData ? formData.scientificStatus : null
+      if (scientificStatus && !scientificStatus.degree) {
+        hasErrors = true
+      }
+    }
+
+    // Проверяем специализации для врачей и исследователей
+    if (formData.role === "doctor" || formData.role === "researcher") {
+      const specializations = Array.isArray(formData.specializations) ? formData.specializations : []
+      if (specializations.length > 0) {
+        specializations.forEach((spec) => {
+          if (!isValidSpecialization(spec)) {
+            hasErrors = true
+          }
+        })
+      }
+    }
+
+    return hasErrors
+  }
+
   const handleResetWithAvatar = () => {
     handleReset()
     setUploadedAvatarFile(null)
     setAvatarSaveStatus("idle")
     setAvatarErrorMessage("")
+    setAttemptedSave(false)
   }
 
   const isSaveDisabled = (!hasChanges && !uploadedAvatarFile) || isUpdating || isUploadingAvatar || hasValidationErrors
@@ -137,6 +246,7 @@ export const NewProfileEditForm: React.FC<NewProfileEditFormProps> = ({ profile 
           onChange={(field: any, value: any) => updateField(field, value)}
           onValidationChange={setEducationErrors}
           role={formData.role}
+          attemptedSave={attemptedSave}
         />
 
         <div id="contacts" style={{ marginBottom: "1.5rem" }}>
@@ -144,6 +254,7 @@ export const NewProfileEditForm: React.FC<NewProfileEditFormProps> = ({ profile 
             contacts={formData.contacts || []}
             onChange={(field: any, value: any) => updateField(field, value)}
             onValidationChange={setContactsErrors}
+            attemptedSave={attemptedSave}
           />
         </div>
 
@@ -151,6 +262,7 @@ export const NewProfileEditForm: React.FC<NewProfileEditFormProps> = ({ profile 
           workHistory={formData.workHistory || []}
           onChange={updateField}
           onValidationChange={setWorkHistoryErrors}
+          attemptedSave={attemptedSave}
         />
       </>
     )
@@ -176,6 +288,7 @@ export const NewProfileEditForm: React.FC<NewProfileEditFormProps> = ({ profile 
             }
             onChange={updateField}
             onValidationChange={setScientificStatusErrors}
+            attemptedSave={attemptedSave}
           />
         </>
       )
@@ -198,11 +311,13 @@ export const NewProfileEditForm: React.FC<NewProfileEditFormProps> = ({ profile 
             }
             onChange={updateField}
             onValidationChange={setScientificStatusErrors}
+            attemptedSave={attemptedSave}
           />
           <SpecializationsBlock
             specializations={Array.isArray(formData.specializations) ? formData.specializations : []}
             onChange={updateField}
             onValidationChange={setSpecializationsErrors}
+            attemptedSave={attemptedSave}
           />
         </>
       )
@@ -247,6 +362,12 @@ export const NewProfileEditForm: React.FC<NewProfileEditFormProps> = ({ profile 
         {avatarSaveStatus === "error" && (
           <Alert variant="danger" className={styles.alert}>
             {avatarErrorMessage}
+          </Alert>
+        )}
+
+        {attemptedSave && hasValidationErrors && (
+          <Alert variant="warning" className={styles.alert}>
+            Исправьте ошибки в форме перед сохранением
           </Alert>
         )}
 

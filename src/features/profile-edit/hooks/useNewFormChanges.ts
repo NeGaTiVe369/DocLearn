@@ -251,6 +251,7 @@ export const useNewFormChanges = (initialData: SpecialistUser) => {
   const [workHistoryErrors, setWorkHistoryErrors] = useState(false)
   const [scientificStatusErrors, setScientificStatusErrors] = useState(false)
   const [specializationsErrors, setSpecializationsErrors] = useState(false)
+  const [attemptedSave, setAttemptedSave] = useState(false)
 
   // Исправляем инициализацию originalData
   const originalData = useRef<SpecialistUser>(normalizedInitialData)
@@ -525,13 +526,93 @@ export const useNewFormChanges = (initialData: SpecialistUser) => {
     return Object.keys(getChangedFields()).length > 0
   }, [getChangedFields])
 
+  // Функция для проверки валидности всех данных при attemptedSave
+  const checkAllValidation = useCallback(() => {
+    if (!attemptedSave) return false
+
+    let hasErrors = false
+
+    // Проверяем образование
+    const educationArray = normalizeEducationToArray(formData.education)
+    if (educationArray.length > 0) {
+      educationArray.forEach((edu) => {
+        if (!isValidEducation(edu)) {
+          hasErrors = true
+        }
+      })
+    }
+
+    // Проверяем контакты
+    const contacts = formData.contacts || []
+    if (contacts.length > 0) {
+      contacts.forEach((contact) => {
+        if (!isValidContact(contact)) {
+          hasErrors = true
+        }
+      })
+    }
+
+    // Проверяем историю работы
+    const workHistory = formData.workHistory || []
+    if (workHistory.length > 0) {
+      workHistory.forEach((work) => {
+        if (!isValidWork(work)) {
+          hasErrors = true
+        }
+      })
+    }
+
+    // Проверяем научный статус для соответствующих ролей
+    if (hasScientificStatus(formData)) {
+      const scientificStatus = getScientificStatusSafely(formData)
+      if (scientificStatus && !scientificStatus.degree) {
+        hasErrors = true
+      }
+    }
+
+    // Проверяем специализации для врачей и исследователей
+    if (hasSpecializations(formData)) {
+      const specializations = getSpecializationsSafely(formData)
+      if (specializations.length > 0) {
+        specializations.forEach((spec) => {
+          if (!isValidSpecialization(spec)) {
+            hasErrors = true
+          }
+        })
+      }
+    }
+
+    return hasErrors
+  }, [formData, attemptedSave])
+
   // Проверка наличия ошибок валидации
   const hasValidationErrors = useMemo(() => {
-    return educationErrors || contactsErrors || workHistoryErrors || scientificStatusErrors || specializationsErrors
-  }, [educationErrors, contactsErrors, workHistoryErrors, scientificStatusErrors, specializationsErrors])
+    // Проверяем ошибки от блоков
+    const blockErrors =
+      educationErrors || contactsErrors || workHistoryErrors || scientificStatusErrors || specializationsErrors
+
+    // Если была попытка сохранения, также проверяем все данные
+    if (attemptedSave) {
+      return blockErrors || checkAllValidation()
+    }
+
+    return blockErrors
+  }, [
+    attemptedSave,
+    checkAllValidation,
+    educationErrors,
+    contactsErrors,
+    workHistoryErrors,
+    scientificStatusErrors,
+    specializationsErrors,
+  ])
 
   // Сохранение профиля - возвращаем результат для обработки в компоненте
-  const handleSave = useCallback(async (): Promise<{ success: boolean; shouldRedirect: boolean }> => {
+  const handleSave = useCallback(async (): Promise<{
+    success: boolean
+    shouldRedirect: boolean
+    hasValidationErrors?: boolean
+  }> => {
     try {
       setSaveStatus("idle")
       setErrorMessage("")
@@ -609,6 +690,7 @@ export const useNewFormChanges = (initialData: SpecialistUser) => {
     setWorkHistoryErrors(false)
     setScientificStatusErrors(false)
     setSpecializationsErrors(false)
+    setAttemptedSave(false)
   }, [])
 
   // Отмена редактирования
@@ -640,6 +722,8 @@ export const useNewFormChanges = (initialData: SpecialistUser) => {
     workHistoryErrors,
     scientificStatusErrors,
     specializationsErrors,
+    attemptedSave,
+    setAttemptedSave,
 
     // Методы обновления
     updateField,
