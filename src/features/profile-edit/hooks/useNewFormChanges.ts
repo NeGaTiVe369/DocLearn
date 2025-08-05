@@ -567,11 +567,9 @@ export const useNewFormChanges = (initialData: SpecialistUser) => {
         try {
           const authResult = await dispatch(checkAuthStatus()).unwrap();
           if (authResult) {
-            // Токен обновлен успешно, повторяем попытку сохранения
             console.log("Token refreshed, retrying save...");
-            return await handleSave(); // рекурсивный вызов
+            return await handleSave();
           } else {
-            // Не удалось обновить токен
             setSaveStatus("error");
             setErrorMessage("Сессия истекла. Необходимо войти заново.");
             return { success: false, shouldRedirect: false };
