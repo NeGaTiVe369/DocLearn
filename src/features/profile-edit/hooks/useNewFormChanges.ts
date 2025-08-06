@@ -152,11 +152,11 @@ const normalizeEducationToArray = (education: Education | Education[]): Educatio
   return []
 }
 
-const normalizeEducationForRole = (education: Education[], role: string): Education | Education[] => {
+const normalizeEducationForRole = (education: Education[], role: string): Education[] => {
   if (role === "student") {
     return education.length > 0
-      ? education[0]
-      : {
+      ? [education[0]]  // Возвращаем массив с одним элементом
+      : [{
           _id: "",
           institution: "",
           degree: "Специалитет",
@@ -164,7 +164,7 @@ const normalizeEducationForRole = (education: Education[], role: string): Educat
           startDate: "",
           graduationYear: "",
           isCurrently: false,
-        }
+        }]
   }
   return education
 }
@@ -469,12 +469,6 @@ export const useNewFormChanges = (initialData: SpecialistUser) => {
         })
         if (validEducation.length > 0) {
           cleanedData[key] = validEducation
-        }
-      } else if (key === "education" && !Array.isArray(value)) {
-        const education = value as Education
-        if (isValidEducation(education)) {
-          const { _id, ...rest } = education
-          cleanedData[key] = rest
         }
       } else if (key === "workHistory" && Array.isArray(value)) {
         const validWork = (value as Work[]).filter(isValidWork).map(({ id, ...rest }) => rest)

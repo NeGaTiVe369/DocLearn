@@ -278,7 +278,7 @@ export const NewEducationBlock: React.FC<NewEducationBlockProps> = ({
                       onChange={(e) => updateEducation(index, "startDate", e.target.value)}
                       onBlur={() => handleFieldBlur(index, "startDate")}
                       className={`${styles.input} ${errors.startDate ? styles.inputError : ""}`}
-                      placeholder="2020"
+                      placeholder="Например: 2020"
                     />
                     {errors.startDate && <div className={styles.errorText}>{errors.startDate}</div>}
                   </Form.Group>
@@ -292,7 +292,7 @@ export const NewEducationBlock: React.FC<NewEducationBlockProps> = ({
                       onChange={(e) => updateEducation(index, "graduationYear", e.target.value)}
                       onBlur={() => handleFieldBlur(index, "graduationYear")}
                       className={`${styles.input} ${errors.graduationYear ? styles.inputError : ""}`}
-                      placeholder="2024"
+                      placeholder="Например: 2024"
                     />
                     {errors.graduationYear && <div className={styles.errorText}>{errors.graduationYear}</div>}
                   </Form.Group>
