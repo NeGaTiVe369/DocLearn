@@ -31,9 +31,9 @@ type ProfileChanges = DeepPartial<SpecialistUser> & {
 
 // Создание объекта научного статуса по умолчанию
 const createDefaultScientificStatus = (): ScientificStatus => ({
-  degree: "Нет",
-  title: "Нет",
-  rank: "Нет",
+  degree: null,
+  title: null,
+  rank: null,
   interests: [],
 })
 
