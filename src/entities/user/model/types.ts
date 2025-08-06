@@ -180,18 +180,12 @@ export interface ResearcherUser extends Omit<DoctorUser, "role"> {
 }
 
 // Админ
-export interface AdminUser extends BaseUserFields {
+export interface AdminUser extends Omit<ResearcherUser, "role"> {
   role: "admin"
-  education: Education[]
-  scientificStatus?: ScientificStatus
-  specializations?: Specialization[]
 }
 
-export interface OwnerUser extends BaseUserFields {
+export interface OwnerUser extends Omit<AdminUser, "role"> {
   role: "owner"
-  education: Education[]
-  scientificStatus?: ScientificStatus
-  specializations?: Specialization[]
 }
 
 // Union type для всех типов пользователей-специалистов
