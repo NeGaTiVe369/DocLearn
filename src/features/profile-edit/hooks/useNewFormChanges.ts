@@ -542,14 +542,6 @@ export const useNewFormChanges = (initialData: SpecialistUser) => {
       })
     }
 
-    // Проверяем научный статус для соответствующих ролей
-    if (hasScientificStatus(formData)) {
-      const scientificStatus = getScientificStatusSafely(formData)
-      if (scientificStatus && !scientificStatus.degree) {
-        hasErrors = true
-      }
-    }
-
     // Проверяем специализации для врачей и исследователей
     if (hasSpecializations(formData)) {
       const specializations = getSpecializationsSafely(formData)

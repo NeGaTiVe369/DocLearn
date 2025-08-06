@@ -201,14 +201,6 @@ export const NewProfileEditForm: React.FC<NewProfileEditFormProps> = ({ profile 
       })
     }
 
-    // Проверяем научный статус для соответствующих ролей
-    if (formData.role === "postgraduate" || formData.role === "doctor" || formData.role === "researcher") {
-      const scientificStatus = "scientificStatus" in formData ? formData.scientificStatus : null
-      if (scientificStatus && !scientificStatus.degree) {
-        hasErrors = true
-      }
-    }
-
     // Проверяем специализации для врачей и исследователей
     if (formData.role === "doctor" || formData.role === "researcher") {
       const specializations = Array.isArray(formData.specializations) ? formData.specializations : []
@@ -287,7 +279,6 @@ export const NewProfileEditForm: React.FC<NewProfileEditFormProps> = ({ profile 
                   }
             }
             onChange={updateField}
-            onValidationChange={setScientificStatusErrors}
             attemptedSave={attemptedSave}
           />
         </>
@@ -310,7 +301,6 @@ export const NewProfileEditForm: React.FC<NewProfileEditFormProps> = ({ profile 
                   }
             }
             onChange={updateField}
-            onValidationChange={setScientificStatusErrors}
             attemptedSave={attemptedSave}
           />
           <SpecializationsBlock
