@@ -76,7 +76,8 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ profile }) => {
       // const studentProfile = profile as SpecialistUser
       // return profile.programType || "Программа не указана"
     } else {
-      return profile.mainSpecialization || "Специализация не указана"
+      return "Специализация не указана"
+      // return profile.mainSpecialization || "Специализация не указана"
     }
   }
 
