@@ -29,13 +29,14 @@ export interface ScientificStatus {
 
 //типы для специализаций врача
 export type SpecializationMethod = "Ординатура" | "Профессиональная переподготовка"
-export type QualificationCategory = "Вторая категория" | "Первая категория" | "Высшая категория"
+export type QualificationCategory = "Вторая категория" | "Первая категория" | "Высшая категория" | null
 
 export interface Specialization {
-  id: string
+  specializationId: string
   name: string
   method: SpecializationMethod
   qualificationCategory: QualificationCategory
+  main: boolean
 }
 
 //тип для места работы

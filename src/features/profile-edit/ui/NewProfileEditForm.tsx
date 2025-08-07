@@ -157,7 +157,7 @@ export const NewProfileEditForm: React.FC<NewProfileEditFormProps> = ({ profile 
     }
 
     const isValidSpecialization = (spec: any): boolean => {
-      return Boolean(spec.name.trim() && spec.method && spec.qualificationCategory)
+      return Boolean(spec.name.trim() && spec.method && spec.specializationId.trim())
     }
 
     // Нормализация образования в массив
