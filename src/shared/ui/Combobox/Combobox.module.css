@@ -55,19 +55,33 @@
   color: #374151;
 }
 
-.chevron {
+.chevronButton {
   position: absolute;
   right: 8px;
   top: 50%;
   transform: translateY(-50%);
-  color: #6b7280;
-  transition: transform 0.2s ease;
-  pointer-events: none;
+  background: none;
+  border: none;
+  outline: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  z-index: 10;
 }
 
-.chevron.open {
-  transform: translateY(-50%) rotate(180deg);
+.chevronIcon {
+  color: #6b7280;
+  transition: transform 0.2s ease;
 }
+
+.chevronIcon.open {
+  transform: rotate(180deg);
+}
+
 
 .options {
   position: absolute;
