@@ -17,7 +17,6 @@ import type {
   ResearcherUser,
 } from "@/entities/user/model/types"
 import { useUpdateMyProfileMutation } from "../api/profileEditApi"
-import { checkAuthStatus } from "@/features/auth/model/thunks"
 import { useAppDispatch } from "@/shared/hooks/hooks"
 
 type DeepPartial<T> = {
@@ -29,7 +28,6 @@ type ProfileChanges = DeepPartial<SpecialistUser> & {
   specializations?: Specialization[]
 }
 
-// Создание объекта научного статуса по умолчанию
 const createDefaultScientificStatus = (): ScientificStatus => ({
   degree: null,
   title: null,
@@ -37,7 +35,7 @@ const createDefaultScientificStatus = (): ScientificStatus => ({
   interests: [],
 })
 
-// Функции сравнения (копируем из старого хука)
+// Функции сравнения
 const areContactsEqual = (contacts1: Contact[], contacts2: Contact[]): boolean => {
   if (contacts1.length !== contacts2.length) return false
 
@@ -85,10 +83,8 @@ const areWorkHistoryEqual = (work1: Work[], work2: Work[]): boolean => {
 }
 
 const areScientificStatusEqual = (status1?: ScientificStatus, status2?: ScientificStatus): boolean => {
-  // Если оба undefined/null, считаем равными
   if (!status1 && !status2) return true
 
-  // Если один есть, а другого нет, не равны
   if (!status1 || !status2) return false
 
   return (
@@ -100,11 +96,8 @@ const areScientificStatusEqual = (status1?: ScientificStatus, status2?: Scientif
 }
 
 const areSpecializationsEqual = (spec1?: Specialization[], spec2?: Specialization[]): boolean => {
-  // Проверяем что оба параметра являются массивами
   if (!Array.isArray(spec1) || !Array.isArray(spec2)) {
-    // Если оба undefined/null, считаем равными
     if (!spec1 && !spec2) return true
-    // Если один есть, а другого нет, не равны
     return false
   }
 
@@ -122,7 +115,6 @@ const areSpecializationsEqual = (spec1?: Specialization[], spec2?: Specializatio
   })
 }
 
-// Функции валидации
 const isValidContact = (contact: Contact): boolean => {
   return Boolean(contact.value && contact.value.trim() !== "")
 }
@@ -143,7 +135,6 @@ const isValidSpecialization = (spec: Specialization): boolean => {
   return Boolean(spec.name.trim() && spec.method && spec.specializationId.trim())
 }
 
-// Функции нормализации образования
 const normalizeEducationToArray = (education: Education | Education[]): Education[] => {
   if (Array.isArray(education)) {
     return education
@@ -157,16 +148,18 @@ const normalizeEducationToArray = (education: Education | Education[]): Educatio
 const normalizeEducationForRole = (education: Education[], role: string): Education[] => {
   if (role === "student") {
     return education.length > 0
-      ? [education[0]]  // Возвращаем массив с одним элементом
-      : [{
-          _id: "",
-          institution: "",
-          degree: "Специалитет",
-          specialty: "",
-          startDate: "",
-          graduationYear: "",
-          isCurrently: false,
-        }]
+      ? [education[0]]
+      : [
+          {
+            _id: "",
+            institution: "",
+            degree: "Специалитет",
+            specialty: "",
+            startDate: "",
+            graduationYear: "",
+            isCurrently: false,
+          },
+        ]
   }
   return education
 }
@@ -478,19 +471,19 @@ export const useNewFormChanges = (initialData: SpecialistUser) => {
           cleanedData[key] = validWork
         }
       } else if (key === "specializations" && Array.isArray(value)) {
-        const validSpecializations = (value as Specialization[])
-          .filter(isValidSpecialization)
-          .map((spec) => ({
-            specializationId: spec.specializationId,
-            name: spec.name,
-            method: {
-              type: spec.method
-            },
-            qualificationCategory: spec.qualificationCategory ? {
-              type: spec.qualificationCategory
-            } : null,
-            main: spec.main
-          }))
+        const validSpecializations = (value as Specialization[]).filter(isValidSpecialization).map((spec) => ({
+          specializationId: spec.specializationId,
+          name: spec.name,
+          method: {
+            type: spec.method,
+          },
+          qualificationCategory: spec.qualificationCategory
+            ? {
+                type: spec.qualificationCategory,
+              }
+            : null,
+          main: spec.main,
+        }))
         if (validSpecializations.length > 0) {
           cleanedData[key] = validSpecializations
         }
@@ -625,28 +618,7 @@ export const useNewFormChanges = (initialData: SpecialistUser) => {
     } catch (error: any) {
       console.error("Update profile error:", error)
       setSaveStatus("error")
-
-      if (error?.status === 401 || error?.data?.code === "MISSING_TOKEN") {
-        try {
-          const authResult = await dispatch(checkAuthStatus()).unwrap()
-          if (authResult) {
-            console.log("Token refreshed, retrying save...")
-            return await handleSave()
-          } else {
-            setSaveStatus("error")
-            setErrorMessage("Сессия истекла. Необходимо войти заново.")
-            return { success: false, shouldRedirect: false }
-          }
-        } catch (authError) {
-          console.error("Auth refresh error:", authError)
-          setSaveStatus("error")
-          setErrorMessage("Сессия истекла. Необходимо войти заново.")
-          return { success: false, shouldRedirect: false }
-        }
-      } else {
-        setErrorMessage(error?.data?.error || error?.data?.message || "Произошла ошибка при сохранении профиля")
-      }
-
+      setErrorMessage(error?.data?.error || error?.data?.message || "Произошла ошибка при сохранении профиля")
       return { success: false, shouldRedirect: false }
     }
   }, [getDataToSend, updateProfile, formData, updateOriginalData])
