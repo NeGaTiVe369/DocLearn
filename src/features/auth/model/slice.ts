@@ -47,7 +47,7 @@ export const authSlice = createSlice({
           placeStudy,
           placeWork,
           role,
-          education, // Destructure education
+          education,
         } = action.payload
 
         if (defaultAvatarPath !== undefined) {

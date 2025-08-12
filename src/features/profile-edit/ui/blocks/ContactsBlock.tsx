@@ -45,7 +45,6 @@ export const ContactsBlock: React.FC<ContactsBlockProps> = ({
 }) => {
   const [touchedFields, setTouchedFields] = useState<ContactTouched>({})
 
-  // Пересчитываем валидацию при изменении attemptedSave
   useEffect(() => {
     checkValidation(contacts, touchedFields)
   }, [attemptedSave])
@@ -107,7 +106,6 @@ export const ContactsBlock: React.FC<ContactsBlockProps> = ({
       }
     })
 
-    // При attemptedSave проверяем все незаполненные поля
     if (attemptedSave) {
       contactsList.forEach((contact) => {
         if (!contact.value.trim()) {

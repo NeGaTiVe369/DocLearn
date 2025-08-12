@@ -32,7 +32,6 @@ export const WorkHistoryBlock: React.FC<WorkHistoryBlockProps> = ({
   const currentYear = new Date().getFullYear()
   const [touchedFields, setTouchedFields] = useState<FieldTouched>({})
 
-  // Пересчитываем валидацию при изменении attemptedSave
   useEffect(() => {
     checkValidation(workHistory, touchedFields)
   }, [attemptedSave])
@@ -141,7 +140,6 @@ export const WorkHistoryBlock: React.FC<WorkHistoryBlockProps> = ({
       }
     })
 
-    // При attemptedSave проверяем все незаполненные поля
     if (attemptedSave) {
       workList.forEach((work) => {
         if (

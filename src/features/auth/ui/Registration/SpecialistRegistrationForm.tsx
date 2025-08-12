@@ -2,8 +2,8 @@
 
 import type React from "react"
 import { useEffect } from "react"
-import { Button, Spinner, Form } from "react-bootstrap" // Added Form import
-import { useForm, Controller } from "react-hook-form" // Added Controller import
+import { Button, Spinner, Form } from "react-bootstrap"
+import { useForm, Controller } from "react-hook-form"
 import styles from "../styles/AuthForm.module.css"
 import { useAppDispatch, useAppSelector } from "@/shared/hooks/hooks"
 import { registerUser } from "@/features/auth/model/thunks"

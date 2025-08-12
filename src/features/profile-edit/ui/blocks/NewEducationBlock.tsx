@@ -132,7 +132,6 @@ export const NewEducationBlock: React.FC<NewEducationBlockProps> = ({
       }
     }
 
-    // Год окончания теперь всегда обязателен
     if (fieldTouched.graduationYear || attemptedSave) {
       if (!edu.graduationYear) {
         errors.graduationYear = "Год окончания обязателен"
@@ -144,7 +143,6 @@ export const NewEducationBlock: React.FC<NewEducationBlockProps> = ({
         } else if (graduation < startYear) {
           errors.graduationYear = "Год окончания не может быть раньше года начала"
         }
-        // Убрали проверку на будущее время
       }
     }
 
@@ -161,7 +159,6 @@ export const NewEducationBlock: React.FC<NewEducationBlockProps> = ({
       }
     })
 
-    // При attemptedSave проверяем все незаполненные поля
     if (attemptedSave) {
       educationList.forEach((edu) => {
         if (
@@ -169,7 +166,7 @@ export const NewEducationBlock: React.FC<NewEducationBlockProps> = ({
           !edu.degree.trim() ||
           !edu.specialty.trim() ||
           !edu.startDate ||
-          !edu.graduationYear // Год окончания теперь всегда обязателен
+          !edu.graduationYear
         ) {
           hasErrors = true
         }
