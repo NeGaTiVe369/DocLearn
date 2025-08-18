@@ -237,13 +237,13 @@ export function AdminModeration() {
                     </h3>
                     <div className={styles.itemMeta}>
                       <div className={styles.itemUser}>
-                        <Image
+                        {/* <Image
                           src={user.avatar || user.defaultAvatarPath || "/placeholder.webp"}
                           alt={`${user.firstName} ${user.lastName}`}
                           width={24}
                           height={24}
                           className={styles.userAvatar}
-                        />
+                        /> */}
                         <span>
                           {user.email}
                           {/* {user.firstName} {user.lastName} */}
