@@ -1,7 +1,7 @@
 "use client"
 
 import { AlertCircle, RefreshCw } from "lucide-react"
-import styles from "./AdminModeration.module.css"
+import styles from "../../admin-users/ui/AdminUsers.module.css"
 
 interface AdminModerationErrorProps {
   error: string
@@ -10,17 +10,13 @@ interface AdminModerationErrorProps {
 
 export function AdminModerationError({ error, onRetry }: AdminModerationErrorProps) {
   return (
-    <div className={styles.placeholder}>
-      <AlertCircle size={48} className={styles.placeholderIcon} />
-      <h3 className={styles.placeholderTitle}>Ошибка загрузки</h3>
-      <p className={styles.placeholderText}>{error}</p>
-      <button
-        onClick={onRetry}
-        className={`${styles.actionButton} ${styles.approveButton}`}
-        style={{ marginTop: "1rem" }}
-      >
+    <div className={styles.errorContainer}>
+      <AlertCircle size={48} className={styles.errorIcon} />
+      <h3 className={styles.errorTitle}>Ошибка загрузки пользователей</h3>
+      <p className={styles.errorText}>{error}</p>
+      <button onClick={onRetry} className={styles.retryButton}>
         <RefreshCw size={16} />
-        Повторить попытку
+        Попробовать снова
       </button>
     </div>
   )
