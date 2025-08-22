@@ -157,6 +157,16 @@ export function AdminUsers() {
     refetch()
   }
 
+  const getAvatarUrl = (user: SpecialistUser) => {
+    if (user.avatarUrl) {
+      return user.avatarUrl
+    }
+    if (user.defaultAvatarPath) {
+      return user.defaultAvatarPath
+    }
+    return "/placeholder.webp"
+  }
+
   if (isLoading) {
     return <AdminUsersSpinner />
   }
@@ -256,7 +266,7 @@ export function AdminUsers() {
                   <td className={styles.tableCell}>
                     <div className={styles.userInfo}>
                       <Image
-                        src={user.avatar || user.defaultAvatarPath || "/placeholder.webp"}
+                        src={getAvatarUrl(user) || "/placeholder.webp"}
                         alt={`${user.firstName} ${user.lastName}`}
                         width={40}
                         height={40}
