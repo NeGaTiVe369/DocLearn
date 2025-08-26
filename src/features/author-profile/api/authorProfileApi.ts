@@ -2,10 +2,20 @@ import { createApi } from "@reduxjs/toolkit/query/react"
 import { axiosBaseQuery } from "@/shared/api/axiosBaseQuery"
 import type { SpecialistUser } from "@/entities/user/model/types"
 
+interface FollowersResponse {
+  success: boolean
+  data: SpecialistUser[]
+}
+
+interface FollowingResponse {
+  success: boolean
+  data: SpecialistUser[]
+}
+
 export const authorProfileApi = createApi({
   reducerPath: "authorProfileApi",
   baseQuery: axiosBaseQuery(),
-  tagTypes: ["Profile"],
+  tagTypes: ["Profile", "Followers", "Following"],
   endpoints: (builder) => ({
     getAuthorProfile: builder.query<SpecialistUser, string>({
       query: (id: string) => ({
@@ -53,7 +63,28 @@ export const authorProfileApi = createApi({
         { type: "Profile", id: "LIST" },
       ],
     }),
+
+    getFollowers: builder.query<FollowersResponse, string>({
+      query: (userId) => ({
+        url: `/user/${userId}/followers`,
+        method: "GET",
+      }),
+      providesTags: (_result, _error, userId) => [{ type: "Followers", id: userId }],
+    }),
+
+    getFollowing: builder.query<FollowingResponse, string>({
+      query: (userId) => ({
+        url: `/user/${userId}/following`,
+        method: "GET",
+      }),
+      providesTags: (_result, _error, userId) => [{ type: "Following", id: userId }],
+    }),
   }),
 })
 
-export const { useGetAuthorProfileQuery, useGetMyProfileQuery } = authorProfileApi
+export const { 
+  useGetAuthorProfileQuery, 
+  useGetMyProfileQuery, 
+  useGetFollowersQuery, 
+  useGetFollowingQuery, 
+} = authorProfileApi
