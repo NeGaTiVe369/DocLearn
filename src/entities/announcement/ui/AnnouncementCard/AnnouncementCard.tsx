@@ -108,14 +108,14 @@ export const AnnouncementCard: React.FC<AnnouncementCardProps> = ({
       {variant !== "compact" && (
         <div className={styles.imageContainer}>
           <img src={"/placeholder.webp"} alt={announcement.title} className={styles.image} />
-          {announcement.isPromoted && <div className={styles.promotedBadge}>Горячо</div>}
+          {announcement.isPromoted && <div className={styles.promotedBadge}>Срочно</div>}
         </div>
       )}
 
       <div className={styles.content}>
         {variant === "compact" && (
           <div className={styles.badges}>
-            {announcement.isPromoted && <div className={styles.promotedBadge}>Горячо</div>}
+            {announcement.isPromoted && <div className={styles.promotedBadge}>Срочно</div>}
           </div>
         )}
 
