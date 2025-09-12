@@ -1,11 +1,10 @@
 import { FollowersPage } from "@/features/author-profile/ui/FollowersPage/FollowersPage"
 
-interface PageProps {
-  params: {
-    id: string
-  }
-}
-
-export default function Followers({ params }: PageProps) {
-  return <FollowersPage userId={params.id} />
+export default async function Followers({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+  return <FollowersPage userId={id} />;
 }
