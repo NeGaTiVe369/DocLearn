@@ -1,0 +1,192 @@
+.card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  background: #fff;
+  border: 1px solid #e9ecef;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+
+.card:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-color: #dee2e6;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  cursor: pointer;
+}
+
+.avatarContainer {
+  flex-shrink: 0;
+}
+
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.avatarPlaceholder {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #007bff;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.userDetails {
+  flex: 1;
+  min-width: 0;
+}
+
+.userName {
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #212529;
+  margin: 0 0 4px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.userSpecialization {
+  font-family: "Montserrat", sans-serif;
+  font-size: 14px;
+  color: #6c757d;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.actions {
+  flex-shrink: 0;
+  margin-left: 12px;
+}
+
+.primaryButton,
+.secondaryButton {
+  box-sizing: border-box;
+  padding: 0.75rem 1.5rem;
+  height: 3rem;
+  width: 100%;
+  max-width: 13rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.primaryButton {
+  background: #5388d8;
+  color: white;
+  border: none;
+  transition: background-color 0.2s;
+}
+
+.primaryButton:hover {
+  background: #4070b8;
+}
+
+.secondaryButton {
+  background: transparent;
+  color: #5388d8;
+  border: 2px solid #5388d8;
+  transition: all 0.2s;
+}
+
+.secondaryButton:hover {
+  background: #5388d8;
+  color: white;
+}
+
+/* .followButton {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  background: #007bff;
+  color: white;
+  font-family: "Montserrat", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 100px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.followButton:hover {
+  background: #0056b3;
+}
+
+.followButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.unfollowButton {
+  padding: 8px 16px;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  background: #fff;
+  color: #495057;
+  font-family: "Montserrat", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 100px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.unfollowButton:hover {
+  background: #f8f9fa;
+  border-color: #adb5bd;
+}
+
+.unfollowButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed; 
+}
+*/
+
+@media (max-width: 768px) {
+  .card {
+    padding: 12px;
+  }
+
+  .userName {
+    font-size: 15px;
+  }
+
+  .userSpecialization {
+    font-size: 13px;
+  }
+
+  .primaryButton,
+  .secondaryButton {
+    min-width: 90px;
+    font-size: 13px;
+    padding: 6px 12px;
+  }
+}
