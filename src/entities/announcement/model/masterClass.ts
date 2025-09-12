@@ -1,4 +1,4 @@
-import type { BaseAnnouncement, AnnouncementCategory, Speaker, Currency } from './base'
+import type { BaseAnnouncement, AnnouncementCategory, Speaker, Currency, PriceType } from './base'
 
 export type MasterClassSkillLevel = 'beginner' | 'intermediate' | 'advanced';
 
@@ -18,6 +18,7 @@ export interface MasterClass extends BaseAnnouncement {
   maxParticipants: number
   currentParticipants: number
   price: number;
+  price_type: PriceType
   currency: Currency
 
   materials: string[]

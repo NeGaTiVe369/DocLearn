@@ -1,5 +1,6 @@
 import type React from "react"
 import { BookOpen, Users, Award, Zap, Monitor, Video } from "lucide-react"
+import { targetAudienceTranslations, categoryTranslations } from "@/shared/lib/translations"
 import type { Conference, Webinar, MasterClass } from "@/entities/announcement/model"
 import styles from "./AnnouncementDetails.module.css"
 
@@ -63,7 +64,6 @@ export const AnnouncementDetails: React.FC<AnnouncementDetailsProps> = ({ announ
         <p className={styles.description}>{announcement.description}</p>
       </section>
 
-      {/* Программа для конференций */}
       {isConference && (announcement as Conference).program && (
         <section className={styles.section}>
           <h2 className={styles.sectionTitle}>
@@ -80,7 +80,6 @@ export const AnnouncementDetails: React.FC<AnnouncementDetailsProps> = ({ announ
         </section>
       )}
 
-      {/* Детали для мастер-классов */}
       {isMasterClass && (
         <>
           <section className={styles.section}>
@@ -151,7 +150,6 @@ export const AnnouncementDetails: React.FC<AnnouncementDetailsProps> = ({ announ
         </>
       )}
 
-      {/* Детали для вебинаров */}
       {isWebinar && (
         <>
           <section className={styles.section}>
@@ -208,7 +206,6 @@ export const AnnouncementDetails: React.FC<AnnouncementDetailsProps> = ({ announ
         </>
       )}
 
-      {/* Общие детали */}
       <section className={styles.section}>
         <h2 className={styles.sectionTitle}>
           <Users size={20} className={styles.sectionIcon} />

@@ -1,5 +1,6 @@
 import type React from "react"
 import { Calendar, MapPin, CreditCard, Users, Phone, Mail, Globe, ExternalLink } from "lucide-react"
+import { formatPrice, formatDate } from "@/shared/lib/formatters"
 import type { Conference, Webinar, MasterClass } from "@/entities/announcement/model"
 import styles from "./AnnouncementSidebar.module.css"
 
@@ -8,21 +9,6 @@ interface AnnouncementSidebarProps {
 }
 
 export const AnnouncementSidebar: React.FC<AnnouncementSidebarProps> = ({ announcement }) => {
-  const formatPrice = (price: number, currency: string) => {
-    if (price === 0) return "Бесплатно"
-    const currencySymbol = currency === "RUB" ? "₽" : currency === "USD" ? "$" : "€"
-    return `${currencySymbol} ${price.toLocaleString()}`
-  }
-
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString)
-    return date.toLocaleDateString("ru-RU", {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    })
-  }
-
   const getLocationDetails = () => {
     if (!announcement.location) return null
 
@@ -47,7 +33,6 @@ export const AnnouncementSidebar: React.FC<AnnouncementSidebarProps> = ({ announ
 
   return (
     <div className={styles.sidebar}>
-      {/* Основная информация */}
       <div className={styles.card}>
         <h3 className={styles.cardTitle}>Основная информация</h3>
 
@@ -77,11 +62,10 @@ export const AnnouncementSidebar: React.FC<AnnouncementSidebarProps> = ({ announ
           <CreditCard size={18} className={styles.icon} />
           <div>
             <div className={styles.infoLabel}>Стоимость</div>
-            <div className={styles.price}>{formatPrice(announcement.price, announcement.currency)}</div>
+            <div className={styles.price}>{formatPrice(announcement.price, announcement.price_type, announcement.currency)}</div>
           </div>
         </div>
 
-        {/* Участники для разных типов */}
         {announcement.type === "conference" && (
           <div className={styles.infoItem}>
             <Users size={18} className={styles.icon} />
@@ -118,7 +102,6 @@ export const AnnouncementSidebar: React.FC<AnnouncementSidebarProps> = ({ announ
         )}
       </div>
 
-      {/* Контактная информация */}
       {announcement.contactInfo && (
         <div className={styles.card}>
           <h3 className={styles.cardTitle}>Контакты</h3>
@@ -158,7 +141,6 @@ export const AnnouncementSidebar: React.FC<AnnouncementSidebarProps> = ({ announ
         </div>
       )}
 
-      {/* Кнопка регистрации */}
       {(announcement as any).registrationLink && (
         <div className={styles.card}>
           <a
@@ -173,7 +155,6 @@ export const AnnouncementSidebar: React.FC<AnnouncementSidebarProps> = ({ announ
         </div>
       )}
 
-      {/* Дополнительная информация для вебинаров */}
       {announcement.type === "webinar" && (announcement as Webinar).isRecorded && (
         <div className={styles.card}>
           <h3 className={styles.cardTitle}>Запись</h3>
