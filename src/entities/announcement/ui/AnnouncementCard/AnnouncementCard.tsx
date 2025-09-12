@@ -1,7 +1,7 @@
 import type React from "react"
 import { Calendar, MapPin } from "lucide-react"
 import styles from "./AnnouncementCard.module.css"
-import type { Conference, Webinar, Course, MasterClass, Vacancy, Internship, AnnouncementCategories } from "../../model/index"
+import type { Conference, Webinar, Course, MasterClass, Vacancy, Internship, AnnouncementCategory } from "../../model/index"
 
 interface AnnouncementCardProps {
   announcement: Conference | Webinar | Course | MasterClass | Vacancy | Internship
@@ -84,8 +84,8 @@ export const AnnouncementCard: React.FC<AnnouncementCardProps> = ({
     return []
   }
 
-  const translateCategory = (category: AnnouncementCategories) => {
-    const translations: Record<AnnouncementCategories, string> = {
+  const translateCategory = (category: AnnouncementCategory) => {
+    const translations: Record<AnnouncementCategory, string> = {
       medical: "Медицина",
       it: "IT",
       educational: "Образование",
@@ -139,7 +139,7 @@ export const AnnouncementCard: React.FC<AnnouncementCardProps> = ({
 
           {getCategories().length > 0 && (
             <div className={styles.categoriesRow}>
-              {getCategories().map((category: AnnouncementCategories, index: number) => (
+              {getCategories().map((category: AnnouncementCategory, index: number) => (
                 <span key={index} className={styles.categoryTag}>
                   {translateCategory(category)}
                 </span>

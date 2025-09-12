@@ -4,8 +4,13 @@ export type {
   AnnouncementLocationType,
   AnnouncementLocation,
   AnnouncementContactInfo,
+  AnnouncementType,
+  AnnouncementCategory,
+  TargetAudience,
+  Speaker,
+  Language,
 } from "./base"
-export type { Conference, Speaker, AnnouncementCategories, TargetAudience } from "./conference"
+export type { Conference } from "./conference"
 export type { Webinar, WebinarPlatform, WebinarPlatformDetails } from "./webinar"
 export type { Course, CourseModule, CourseFormat, CourseSkillLevel, CourseSchedule } from "./course"
 export type { MasterClass, MasterClassSkillLevel, MasterClassInstructor } from "./masterClass"
@@ -13,6 +18,4 @@ export type { Vacancy, EmploymentType, WorkFormat, SalaryRange, VacancyRequireme
 export type { Internship, InternshipSupervisor, InternshipDuration, InternshipRequirements } from "./Internship"
 export type {
   CreateAnnouncementFormData,
-  AnnouncementLanguage,
-  AnnouncementType,
 } from "./form"

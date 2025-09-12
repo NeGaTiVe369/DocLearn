@@ -1,5 +1,4 @@
-import type { BaseAnnouncement } from './base'
-import type { AnnouncementCategories, Speaker } from './conference'
+import type { BaseAnnouncement, AnnouncementCategory, Speaker, Currency } from './base'
 
 export type MasterClassSkillLevel = 'beginner' | 'intermediate' | 'advanced';
 
@@ -19,13 +18,15 @@ export interface MasterClass extends BaseAnnouncement {
   maxParticipants: number
   currentParticipants: number
   price: number;
-  currency: 'RUB' | 'USD' | 'EUR'
+  currency: Currency
 
-  materials: string[] // что нужно принести/подготовить
+  materials: string[]
   equipment: string[] // какое оборудование будет предоставлено
 
+  registrationLink?: string
+
   duration: number
-  categories: AnnouncementCategories[]
+  categories: AnnouncementCategory[]
   prerequisites?: string
 
   certificates: boolean
