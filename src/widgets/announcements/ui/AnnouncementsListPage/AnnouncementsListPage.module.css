@@ -240,9 +240,24 @@
   }
 }
 
+@media (max-width: 650px) {
+  .page {
+    margin-top: 4rem;
+    margin-bottom: 5rem;
+  }
+
+  .fab {
+    bottom: 64px;
+    right: 16px;
+    width: 52px;
+    height: 52px;
+  }
+
+}
+
 @media (max-width: 480px) {
   .page {
-    margin-top: 3rem;
+    margin-top: 4rem;
     padding: 8px 0;
   }
 
@@ -264,12 +279,12 @@
   }
 
   .sidebar {
-    width: 260px;
+    width: 320px;
     padding: 16px;
   }
 
   .fab {
-    bottom: 16px;
+    bottom: 64px;
     right: 12px;
     width: 48px;
     height: 48px;
@@ -291,7 +306,7 @@
   }
 
   .sidebar {
-    width: 240px;
+    width: 320px;
     padding: 12px;
   }
 }
