@@ -17,7 +17,7 @@
 }
 
 .filterGroup {
-  margin-bottom: 20px;
+  margin-bottom: 8px;
 }
 
 .filterTitle {
@@ -128,6 +128,7 @@
 @media (max-width: 768px) {
   .filters {
     margin-top: 0;
+    margin-bottom: 2.5rem;
     border-radius: 0;
     box-shadow: none;
     padding: 0;
