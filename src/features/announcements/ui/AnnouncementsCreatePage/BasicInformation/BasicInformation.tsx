@@ -20,17 +20,16 @@ interface BasicInformationProps {
 export function BasicInformation({ formData, onUpdate, onNext, onPrevious }: BasicInformationProps) {
     const [errors, setErrors] = useState<{
         title?: string
-        organizer?: string
+        organizerName?: string
         activeFrom?: string
-        startTime?: string
-        locationType?: string
+        format?: string
     }>({})
 
     const [newMaterial, setNewMaterial] = useState("")
     const [newEquipment, setNewEquipment] = useState("")
 
-    const labels = getFormLabels(formData.category || "conference")
-    const fieldsConfig = getFieldsConfig(formData.category || "conference")
+    const labels = getFormLabels(formData.category || "Conference")
+    const fieldsConfig = getFieldsConfig(formData.category || "Conference")
 
     const handleInputChange = (field: keyof CreateAnnouncementFormData, value: any) => {
         onUpdate({ [field]: value })
@@ -46,9 +45,6 @@ export function BasicInformation({ formData, onUpdate, onNext, onPrevious }: Bas
                 [field]: value,
             },
         })
-        if (field === "type" && errors.locationType) {
-            setErrors((prev) => ({ ...prev, locationType: undefined }))
-        }
     }
 
     const handleContactChange = (field: keyof CreateAnnouncementFormData["contactInfo"], value: any) => {
@@ -66,17 +62,14 @@ export function BasicInformation({ formData, onUpdate, onNext, onPrevious }: Bas
         const titleValidation = validateTitle(formData.title)
         if (titleValidation !== true) newErrors.title = titleValidation
 
-        const organizerValidation = validateOrganizer(formData.organizer)
-        if (organizerValidation !== true) newErrors.organizer = organizerValidation
+        const organizerValidation = validateOrganizer(formData.organizerName)
+        if (organizerValidation !== true) newErrors.organizerName = organizerValidation
 
         const dateValidation = validateDate(formData.activeFrom)
         if (dateValidation !== true) newErrors.activeFrom = dateValidation
 
-        const timeValidation = validateTime(formData.startTime)
-        if (timeValidation !== true) newErrors.startTime = timeValidation
-
-        if (!formData?.location?.type) {
-            newErrors.locationType = "Выберите формат проведения"
+        if (!formData.format) {
+            newErrors.format = "Выберите формат проведения"
         }
 
         setErrors(newErrors)
@@ -150,13 +143,13 @@ export function BasicInformation({ formData, onUpdate, onNext, onPrevious }: Bas
                         />
                     </FormField>
 
-                    <FormField label="Организатор" required error={errors.organizer}>
+                    <FormField label="Организатор" required error={errors.organizerName}>
                         <input
                             type="text"
                             className={styles.input}
                             placeholder="Название организации"
-                            value={formData.organizer}
-                            onChange={(e) => handleInputChange("organizer", e.target.value)}
+                            value={formData.organizerName}
+                            onChange={(e) => handleInputChange("organizerName", e.target.value)}
                         />
                     </FormField>
                 </div>
@@ -182,31 +175,11 @@ export function BasicInformation({ formData, onUpdate, onNext, onPrevious }: Bas
                 </div>
 
                 <div className={styles.row}>
-                    <FormField label="Время начала" required error={errors.startTime}>
-                        <input
-                            type="time"
-                            className={styles.input}
-                            value={formData.startTime}
-                            onChange={(e) => handleInputChange("startTime", e.target.value)}
-                        />
-                    </FormField>
-
-                    <FormField label="Время окончания">
-                        <input
-                            type="time"
-                            className={styles.input}
-                            value={formData.endTime}
-                            onChange={(e) => handleInputChange("endTime", e.target.value)}
-                        />
-                    </FormField>
-                </div>
-
-                <div className={styles.row}>
-                    <FormField label="Формат проведения" required error={errors.locationType}>
+                    <FormField label="Формат проведения" required error={errors.format}>
                         <select
                             className={styles.select}
-                            value={formData?.location?.type || ""}
-                            onChange={(e) => handleLocationChange("type", e.target.value)}
+                            value={formData.format || ""}
+                            onChange={(e) => handleInputChange("format", e.target.value)}
                         >
                             <option value="">Выберите формат</option>
                             <option value="offline">Очно</option>
@@ -222,12 +195,12 @@ export function BasicInformation({ formData, onUpdate, onNext, onPrevious }: Bas
                                 className={styles.input}
                                 placeholder="Максимальное количество"
                                 value={
-                                    formData.category === "webinar" ? formData.participantLimit || "" : formData.
+                                    formData.category === "Webinar" ? formData.participantLimit || "" : formData.
                                         maxParticipants || ""
                                 }
                                 onChange={(e) => {
                                     const value = e.target.value ? Number.parseInt(e.target.value) : null
-                                    if (formData.category === "webinar") {
+                                    if (formData.category === "Webinar") {
                                         handleInputChange("participantLimit", value)
                                     } else {
                                         handleInputChange("maxParticipants", value)
@@ -276,7 +249,7 @@ export function BasicInformation({ formData, onUpdate, onNext, onPrevious }: Bas
                     </FormField>
                 )}
 
-                {formData.category === "masterclass" && (
+                {formData.category === "Masterclass" && (
                     <>
                         {fieldsConfig.showSkillLevel && (
                             <div className={styles.row}>
@@ -368,7 +341,7 @@ export function BasicInformation({ formData, onUpdate, onNext, onPrevious }: Bas
                     </>
                 )}
 
-                {formData.category === "webinar" && (
+                {formData.category === "Webinar" && (
                     <>
                         {fieldsConfig.showPlatform && (
                             <div className={styles.row}>
@@ -445,7 +418,7 @@ export function BasicInformation({ formData, onUpdate, onNext, onPrevious }: Bas
                     </>
                 )}
 
-                {(formData.category === "masterclass" || formData.category === "webinar") && fieldsConfig.showPrerequisites && (
+                {(formData.category === "Masterclass" || formData.category === "Webinar") && fieldsConfig.showPrerequisites && (
                     <FormField label="Предварительные требования">
                         <textarea
                             className={styles.textarea}

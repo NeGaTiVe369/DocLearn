@@ -9,9 +9,9 @@ interface AnnouncementDetailsProps {
 }
 
 export const AnnouncementDetails: React.FC<AnnouncementDetailsProps> = ({ announcement }) => {
-  const isConference = announcement.type === "conference"
-  const isWebinar = announcement.type === "webinar"
-  const isMasterClass = announcement.type === "masterclass"
+  const isConference = announcement.type === "Conference"
+  const isWebinar = announcement.type === "Webinar"
+  const isMasterClass = announcement.type === "Masterclass"
 
   const translateCategory = (category: string) => {
     const translations: Record<string, string> = {

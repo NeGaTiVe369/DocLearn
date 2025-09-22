@@ -15,25 +15,25 @@ interface CategoryOption {
 
 const categories: CategoryOption[] = [
   {
-    id: "conference",
+    id: "Conference",
     title: "Конференции",
     description: "Медицинские конференции и симпозиумы",
     icon: Calendar,
   },
   {
-    id: "masterclass",
+    id: "Masterclass",
     title: "Мастер-классы",
     description: "Практические мастер-классы от экспертов",
     icon: Users,
   },
   {
-    id: "webinar",
+    id: "Webinar",
     title: "Вебинары",
     description: "Онлайн-лекции и вебинары",
     icon: Video,
   },
   {
-    id: "course",
+    id: "Course",
     title: "Курсы ПК",
     description: "Курсы повышения квалификации",
     icon: BookOpen,
@@ -45,13 +45,13 @@ const categories: CategoryOption[] = [
 //     icon: Stethoscope,
 //   },
   {
-    id: "university",
+    id: "University",
     title: "ВУЗы",
     description: "Образовательные учреждения",
     icon: GraduationCap,
   },
   {
-    id: "vacancy",
+    id: "Vacancy",
     title: "Вакансии",
     description: "Медицинские вакансии",
     icon: Building,
@@ -64,7 +64,7 @@ const categories: CategoryOption[] = [
 //   },
 ]
 
-const enabledCategories: AnnouncementType[] = ["conference", "masterclass", "webinar"]
+const enabledCategories: AnnouncementType[] = ["Conference", "Masterclass", "Webinar"]
 
 interface CategorySelectionProps {
   selectedCategory: AnnouncementType | null

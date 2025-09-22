@@ -1,4 +1,14 @@
-import type { BaseAnnouncement, AnnouncementType, AnnouncementLocation, AnnouncementContactInfo, AnnouncementCategory, TargetAudience, Speaker, Language, PriceType, Currency } from "./base"
+import type {
+  AnnouncementType, 
+  AnnouncementLocation, 
+  AnnouncementContactInfo, 
+  AnnouncementCategory, 
+  TargetAudience, 
+  Speaker, 
+  Language, 
+  PriceType, 
+  Currency 
+} from "./base"
 import type { MasterClassSkillLevel } from "./masterClass"
 
 
@@ -8,12 +18,12 @@ export interface CreateAnnouncementFormData {
 
   // Step 2: Basic Information
   title: string
-  organizer: string
+  organizerName: string
+  organizerId: string
   activeFrom: string
   activeTo: string
-  startTime: string
-  endTime: string
   location: AnnouncementLocation
+  format: "online" | "offline" | "hybrid"
   maxParticipants: number | null
   participantLimit: number | null
   price_type: PriceType
@@ -47,6 +57,8 @@ export interface CreateAnnouncementFormData {
   targetAudience: TargetAudience[]
   language: Language
   tags: string[]
+
+  previewImage?: string
 
   // Предпросмотр
   isPromoted: boolean

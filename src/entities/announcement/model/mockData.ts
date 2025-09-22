@@ -3,21 +3,20 @@ import type { Conference, Webinar, MasterClass } from "./index"
 export const mockConferences: (Conference & { id: string })[] = [
   {
     id: "conf-1",
-    type: "conference",
+    type: "Conference",
     title: "Международная конференция по кардиологии 2024",
     description:
       "Ведущие кардиологи мира представят последние достижения в области диагностики и лечения сердечно-сосудистых заболеваний. Обсуждение инновационных методов лечения, новых препаратов и технологий.",
-    organizer: "Российское кардиологическое общество",
+    organizerName: "Российское кардиологическое общество",
+    organizerId: "543534553",
     activeFrom: "2024-03-15",
     activeTo: "2024-03-17",
     status: "published",
     location: {
-      type: "offline",
       address: 'Конгресс-холл "Крокус Экспо"',
       city: "Москва",
-      country: "Россия",
-      coordinates: { lat: 55.7558, lng: 37.6176 },
     },
+    format:"offline",
     contactInfo: {
       email: "info@cardio-conf.ru",
       phone: "+7 (495) 123-45-67",
@@ -33,14 +32,12 @@ export const mockConferences: (Conference & { id: string })[] = [
         userId: "speaker-1",
         name: "Профессор Иванов А.В.",
         eventRole: "Главный докладчик",
-        bio: "Заведующий кафедрой кардиологии РНИМУ им. Н.И. Пирогова",
         status: "confirmed",
       },
       {
         userId: "speaker-2",
         name: "Доктор Петрова М.С.",
         eventRole: "Модератор секции",
-        bio: "Ведущий кардиохирург НМИЦ им. В.А. Алмазова",
         status: "confirmed",
       },
     ],
@@ -60,20 +57,20 @@ export const mockConferences: (Conference & { id: string })[] = [
   },
   {
     id: "conf-2",
-    type: "conference",
+    type: "Conference",
     title: "Саммит цифрового здравоохранения 2024",
     description:
       "Международный саммит по цифровому здравоохранению. Обсуждение применения ИИ в медицине, телемедицины, цифровых биомаркеров и персонализированной медицины.",
-    organizer: "TechMed International",
+    organizerName: "TechMed International",
+    organizerId: "543534553gdf",
     activeFrom: "2024-04-20",
     activeTo: "2024-04-21",
     status: "published",
     location: {
-      type: "hybrid",
       address: 'Отель "Метрополь"',
       city: "Санкт-Петербург",
-      country: "Россия",
     },
+    format:"hybrid",
     contactInfo: {
       email: "contact@digitalhealthsummit.com",
       website: "https://digitalhealthsummit.com",
@@ -88,7 +85,6 @@ export const mockConferences: (Conference & { id: string })[] = [
         userId: "speaker-3",
         name: "Dr. Sarah Johnson",
         eventRole: "Ключевой докладчик",
-        bio: "Руководитель исследований в области ИИ в Стэнфордской медицинской школе",
         status: "confirmed",
       },
     ],
@@ -111,16 +107,15 @@ export const mockConferences: (Conference & { id: string })[] = [
 export const mockWebinars: (Webinar & { id: string })[] = [
   {
     id: "webinar-1",
-    type: "webinar",
+    type: "Webinar",
     title: "Основы машинного обучения в медицине",
     description:
       "Практический вебинар для медицинских работников о применении машинного обучения в диагностике. Разберем реальные кейсы использования ИИ в радиологии и патологии.",
-    organizer: "AI Medical Academy",
+    organizerName: "AI Medical Academy",
+    organizerId: "5435343",
     activeFrom: "2024-03-25",
     status: "published",
-    location: {
-      type: "online",
-    },
+    format: "online",
     contactInfo: {
       email: "support@aimedacademy.ru",
       website: "https://aimedacademy.ru",
@@ -135,7 +130,6 @@ export const mockWebinars: (Webinar & { id: string })[] = [
         userId: "speaker-4",
         name: "Кандидат наук Сидоров В.П.",
         eventRole: "Ведущий эксперт",
-        bio: "Специалист по медицинскому ИИ, автор 50+ научных работ",
         status: "confirmed",
       },
     ],
@@ -160,16 +154,15 @@ export const mockWebinars: (Webinar & { id: string })[] = [
   },
   {
     id: "webinar-2",
-    type: "webinar",
+    type: "Webinar",
     title: "Современные подходы к лечению диабета",
     description:
       "Обзор новейших методов лечения сахарного диабета 2 типа. Обсуждение персонализированной терапии, новых препаратов и технологий мониторинга.",
-    organizer: "Эндокринологическое общество России",
+    organizerName: "Эндокринологическое общество России",
+    organizerId: "534553",
     activeFrom: "2024-04-10",
     status: "published",
-    location: {
-      type: "online",
-    },
+    format:"online",
     contactInfo: {
       email: "webinars@endocrin.ru",
       phone: "+7 (495) 987-65-43",
@@ -184,7 +177,6 @@ export const mockWebinars: (Webinar & { id: string })[] = [
         userId: "speaker-5",
         name: "Профессор Козлова Е.А.",
         eventRole: "Главный эксперт",
-        bio: "Заведующая отделением эндокринологии НМИЦ эндокринологии",
         status: "confirmed",
       },
     ],
@@ -209,20 +201,20 @@ export const mockWebinars: (Webinar & { id: string })[] = [
 export const mockMasterClasses: (MasterClass & { id: string })[] = [
   {
     id: "masterclass-1",
-    type: "masterclass",
+    type: "Masterclass",
     title: "Практический курс по УЗИ сердца",
     description:
       "Интенсивный практический мастер-класс по эхокардиографии. Отработка навыков на современном оборудовании под руководством опытных специалистов.",
-    organizer: 'Центр ультразвуковой диагностики "Эксперт"',
+    organizerName: 'Центр ультразвуковой диагностики "Эксперт"',
+    organizerId: "543fs",
     activeFrom: "2024-03-30",
     activeTo: "2024-03-31",
     status: "published",
     location: {
-      type: "offline",
       address: 'Учебный центр "МедПрактик"',
       city: "Москва",
-      country: "Россия",
     },
+    format:"offline",
     contactInfo: {
       email: "masterclass@uzi-expert.ru",
       phone: "+7 (495) 555-12-34",
@@ -257,20 +249,20 @@ export const mockMasterClasses: (MasterClass & { id: string })[] = [
   },
   {
   id: "masterclass-2",
-  type: "masterclass",
+  type: "Masterclass",
   title: "Практический курс по лапароскопической хирургии",
   description:
     "Интенсивный мастер-класс с отработкой базовых лапароскопических навыков на тренажёрах: работа инструментами в ограниченном пространстве, координация «глаз–рука», наложение внутриполостных узлов, гемостаз и разбор типичных осложнений.",
-  organizer: 'Симуляционный центр клинических навыков "МедСим"',
+  organizerName: 'Симуляционный центр клинических навыков "МедСим"',
+  organizerId: "5213563",
   activeFrom: "2024-04-15",
   activeTo: "2024-04-16",
   status: "published",
   location: {
-    type: "offline",
     address: 'Симуляционный центр "МедСим"',
     city: "Москва",
-    country: "Россия",
   },
+  format:"offline",
   contactInfo: {
     email: "training@medsim.ru",
     website: "https://medsim.ru",
@@ -291,14 +283,12 @@ export const mockMasterClasses: (MasterClass & { id: string })[] = [
       userId: "speaker-6",
       name: "Профессор Смирнов А.А.",
       eventRole: "Приглашённый эксперт",
-      bio: "Заведующий отделением общей хирургии, опыт >20 лет, автор клинических рекомендаций",
       status: "confirmed",
     },
     {
       userId: "speaker-7",
       name: "Орлова Н.В.",
       eventRole: "Эксперт по анестезиологии и ERAS",
-      bio: "Анестезиолог-реаниматолог, специалист по протоколам ускоренного восстановления",
       status: "pending",
     },
   ],

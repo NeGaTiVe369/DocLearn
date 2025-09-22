@@ -6,16 +6,17 @@ export type AnnouncementStatus =
   | 'rejected'
   | 'archived'
   | 'moderator_removed'
+  | 'deleted'
 
 export type AnnouncementType =
-  | "conference"
-  | "masterclass"
-  | "course"
-  | "webinar"
-  | "internship"
-  | "university"
-  | "vacancy"
-  | "equipment"
+  | "Conference"
+  | "Masterclass"
+  | "Course"
+  | "Webinar"
+  | "Internship"
+  | "University"
+  | "Vacancy"
+  | "Equipment"
 
 export type AnnouncementCategory =
   | 'medical'
@@ -40,17 +41,9 @@ export type PriceType = 'free' | 'paid'
 
 export type Language = "ru" | "en" | "multi"
 
-export interface Coordinates {
-  lat: number
-  lng: number
-}
-
 export interface AnnouncementLocation {
-  type: AnnouncementLocationType
   address?: string
   city?: string
-  country?: string
-  coordinates?: Coordinates
 }
 
 export interface AnnouncementContactInfo {
@@ -63,8 +56,6 @@ export interface Speaker {
   userId: string
   name: string
   eventRole: string
-  bio?: string
-  photo?: string
   status: "pending" | "confirmed" | "declined"
 }
 
@@ -72,7 +63,8 @@ export interface BaseAnnouncement {
   type: AnnouncementType
   title: string
   description: string
-  organizer: string
+  organizerName: string
+  organizerId: string
   activeFrom: string
   activeTo?: string
   status: AnnouncementStatus
@@ -82,7 +74,7 @@ export interface BaseAnnouncement {
   contactInfo?: AnnouncementContactInfo
 
   tags: string[]
-  viewsCount: number
+  viewsCount?: number
   isPromoted: boolean
 
   createdAt: string

@@ -14,17 +14,15 @@ import styles from "./CreateAnnouncementPage.module.css"
 const initialFormData: CreateAnnouncementFormData = {
   category: null,
   title: "",
-  organizer: "",
+  organizerName: "",
+  organizerId: "",
   activeFrom: "",
   activeTo: "",
-  startTime: "",
-  endTime: "",
   location: {
-    type: "offline",
     address: "",
     city: "",
-    country: "",
   },
+  format: "online",
   maxParticipants: null,
   participantLimit: null,
   price_type: "free",
@@ -45,6 +43,7 @@ const initialFormData: CreateAnnouncementFormData = {
   targetAudience: [],
   language: "ru",
   tags: [],
+  previewImage: "",
   isPromoted: false,
 }
 

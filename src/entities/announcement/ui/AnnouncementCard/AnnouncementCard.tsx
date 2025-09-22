@@ -36,7 +36,7 @@ export const AnnouncementCard: React.FC<AnnouncementCardProps> = ({
         )}
 
         <h3 className={styles.title}>{announcement.title}</h3>
-        <p className={styles.organizer}>{announcement.organizer}</p>
+        <p className={styles.organizer}>{announcement.organizerName}</p>
 
         <div className={styles.details}>
           <div className={styles.dateLocationRow}>
