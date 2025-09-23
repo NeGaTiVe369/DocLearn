@@ -48,7 +48,7 @@ export const AnnouncementCard: React.FC<AnnouncementCardProps> = ({
             {location && (
               <div className={styles.detailItem}>
                 <MapPin size={16} className={styles.icon} />
-                <span>{getLocationText(location)}</span>
+                <span>{getLocationText(location) || announcement.format}</span>
               </div>
             )}
           </div>
