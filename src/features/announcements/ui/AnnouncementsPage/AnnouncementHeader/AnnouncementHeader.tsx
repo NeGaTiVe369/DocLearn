@@ -22,7 +22,7 @@ export const AnnouncementHeader: React.FC<AnnouncementHeaderProps> = ({ announce
       <h1 className={styles.title}>{announcement.title}</h1>
 
       <div className={styles.organizer}>
-        Организатор: <span className={styles.organizerName}>{announcement.organizer}</span>
+        Организатор: <span className={styles.organizerName}>{announcement.organizerName}</span>
       </div>
 
       {/* <div className={styles.meta}>

@@ -12,11 +12,11 @@ export const AnnouncementSidebar: React.FC<AnnouncementSidebarProps> = ({ announ
   const getLocationDetails = () => {
     if (!announcement.location) return null
 
-    if (announcement.location.type === "online") {
+    if (announcement.format === "online") {
       return { text: "Онлайн мероприятие", address: null }
     }
 
-    if (announcement.location.type === "hybrid") {
+    if (announcement.format === "hybrid") {
       return {
         text: "Гибридный формат",
         address: announcement.location.address || announcement.location.city,
@@ -66,7 +66,7 @@ export const AnnouncementSidebar: React.FC<AnnouncementSidebarProps> = ({ announ
           </div>
         </div>
 
-        {announcement.type === "conference" && (
+        {announcement.type === "Conference" && (
           <div className={styles.infoItem}>
             <Users size={18} className={styles.icon} />
             <div>
@@ -79,7 +79,7 @@ export const AnnouncementSidebar: React.FC<AnnouncementSidebarProps> = ({ announ
           </div>
         )}
 
-        {announcement.type === "masterclass" && (
+        {announcement.type === "Masterclass" && (
           <div className={styles.infoItem}>
             <Users size={18} className={styles.icon} />
             <div>
@@ -91,7 +91,7 @@ export const AnnouncementSidebar: React.FC<AnnouncementSidebarProps> = ({ announ
           </div>
         )}
 
-        {announcement.type === "webinar" && (announcement as Webinar).participantLimit && (
+        {announcement.type === "Webinar" && (announcement as Webinar).participantLimit && (
           <div className={styles.infoItem}>
             <Users size={18} className={styles.icon} />
             <div>
@@ -155,7 +155,7 @@ export const AnnouncementSidebar: React.FC<AnnouncementSidebarProps> = ({ announ
         </div>
       )}
 
-      {announcement.type === "webinar" && (announcement as Webinar).isRecorded && (
+      {announcement.type === "Webinar" && (announcement as Webinar).isRecorded && (
         <div className={styles.card}>
           <h3 className={styles.cardTitle}>Запись</h3>
           <p className={styles.recordingInfo}>
