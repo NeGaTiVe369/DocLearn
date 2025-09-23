@@ -42,11 +42,7 @@ export const SpeakersSection: React.FC<SpeakersSectionProps> = ({ speakers }) =>
           <div key={index} className={styles.speakerCard}>
             <div className={styles.speakerHeader}>
               <div className={styles.avatar}>
-                {speaker.photo ? (
-                  <img src={speaker.photo || "/placeholder.svg"} alt={speaker.name} className={styles.avatarImage} />
-                ) : (
-                  <User size={24} className={styles.avatarIcon} />
-                )}
+                <User size={24} className={styles.avatarIcon} />
               </div>
               <div className={styles.speakerInfo}>
                 <h3 className={styles.speakerName}>{speaker.name}</h3>
@@ -57,7 +53,7 @@ export const SpeakersSection: React.FC<SpeakersSectionProps> = ({ speakers }) =>
                 <span className={styles.statusText}>{getStatusText(speaker.status)}</span>
               </div>
             </div>
-            {speaker.bio && <p className={styles.speakerBio}>{speaker.bio}</p>}
+            {/* {speaker.bio && <p className={styles.speakerBio}>{speaker.bio}</p>} */}
           </div>
         ))}
       </div>
