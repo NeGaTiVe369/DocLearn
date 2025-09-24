@@ -82,4 +82,6 @@ export interface BaseAnnouncement {
 
   createdAt: string
   updatedAt: string
+
+  previewImage?: string
 }

@@ -32,7 +32,7 @@ export const mockConferences: (Conference & { id: string })[] = [
 `,
     organizerName: "Центр цифровой медицины Сеченовского Университета, Дирекция проектов ИТМ ",
     organizerId: "543534df",
-    activeFrom: "2025-09-01",
+    activeFrom: "2025-10-09",
     activeTo: "2025-10-10",
     status: "published",
     location: {
@@ -169,6 +169,7 @@ export const mockConferences: (Conference & { id: string })[] = [
     language: "ru",
     certificates: true,
     cmeCredits: 16,
+    previewImage: "/6.png"
   },
   {
     id: "conf-1",
@@ -178,8 +179,8 @@ export const mockConferences: (Conference & { id: string })[] = [
       "Ведущие кардиологи мира представят последние достижения в области диагностики и лечения сердечно-сосудистых заболеваний. Обсуждение инновационных методов лечения, новых препаратов и технологий.",
     organizerName: "Российское кардиологическое общество",
     organizerId: "543534553",
-    activeFrom: "2025-09-29",
-    activeTo: "2025-09-17",
+    activeFrom: "2025-11-29",
+    activeTo: "2025-12-17",
     status: "published",
     location: {
       address: 'Конгресс-холл "Крокус Экспо"',
@@ -223,6 +224,7 @@ export const mockConferences: (Conference & { id: string })[] = [
     language: "ru",
     certificates: true,
     cmeCredits: 24,
+    previewImage: "/1.png"
   },
   {
     id: "conf-3",
@@ -232,8 +234,8 @@ export const mockConferences: (Conference & { id: string })[] = [
       "Международный саммит по цифровому здравоохранению. Обсуждение применения ИИ в медицине, телемедицины, цифровых биомаркеров и персонализированной медицины.",
     organizerName: "TechMed International",
     organizerId: "543534553gdf",
-    activeFrom: "2025-09-20",
-    activeTo: "2025-10-21",
+    activeFrom: "2025-10-20",
+    activeTo: "2025-11-21",
     status: "published",
     location: {
       address: 'Отель "Метрополь"',
@@ -270,6 +272,7 @@ export const mockConferences: (Conference & { id: string })[] = [
     language: "multi",
     certificates: true,
     cmeCredits: 16,
+    previewImage: "/2.png"
   },
 ]
 
@@ -282,7 +285,7 @@ export const mockWebinars: (Webinar & { id: string })[] = [
       "Практический вебинар для медицинских работников о применении машинного обучения в диагностике. Разберем реальные кейсы использования ИИ в радиологии и патологии.",
     organizerName: "AI Medical Academy",
     organizerId: "5435343",
-    activeFrom: "2025-09-25",
+    activeFrom: "2025-12-25",
     status: "published",
     format: "online",
     contactInfo: {
@@ -320,6 +323,7 @@ export const mockWebinars: (Webinar & { id: string })[] = [
     duration: 120,
     prerequisites: "Базовые знания статистики и работы с компьютером",
     materials: ["Презентация", "Практические задания", "Список литературы"],
+    previewImage: "/3.png"
   },
   {
     id: "webinar-2",
@@ -329,7 +333,7 @@ export const mockWebinars: (Webinar & { id: string })[] = [
       "Обзор новейших методов лечения сахарного диабета 2 типа. Обсуждение персонализированной терапии, новых препаратов и технологий мониторинга.",
     organizerName: "Эндокринологическое общество России",
     organizerId: "534553",
-    activeFrom: "2025-09-10",
+    activeFrom: "2025-10-10",
     status: "published",
     format: "online",
     contactInfo: {
@@ -364,6 +368,7 @@ export const mockWebinars: (Webinar & { id: string })[] = [
     duration: 90,
     prerequisites: "Медицинское образование",
     materials: ["Клинические рекомендации", "Алгоритмы лечения"],
+    previewImage: "/4.png"
   },
 ]
 
@@ -376,8 +381,8 @@ export const mockMasterClasses: (MasterClass & { id: string })[] = [
       "Интенсивный практический мастер-класс по эхокардиографии. Отработка навыков на современном оборудовании под руководством опытных специалистов.",
     organizerName: 'Центр ультразвуковой диагностики "Эксперт"',
     organizerId: "543fs",
-    activeFrom: "2025-09-30",
-    activeTo: "2025-09-31",
+    activeFrom: "2025-11-30",
+    activeTo: "2025-12-31",
     status: "published",
     location: {
       address: 'Учебный центр "МедПрактик"',
@@ -415,6 +420,7 @@ export const mockMasterClasses: (MasterClass & { id: string })[] = [
     certificates: true,
     handsOn: true,
     groupWork: true,
+    previewImage: "/5.png"
   },
   {
     id: "masterclass-2",
@@ -424,8 +430,8 @@ export const mockMasterClasses: (MasterClass & { id: string })[] = [
       "Интенсивный мастер-класс с отработкой базовых лапароскопических навыков на тренажёрах: работа инструментами в ограниченном пространстве, координация «глаз–рука», наложение внутриполостных узлов, гемостаз и разбор типичных осложнений.",
     organizerName: 'Симуляционный центр клинических навыков "МедСим"',
     organizerId: "5213563",
-    activeFrom: "2025-09-15",
-    activeTo: "2025-10-16",
+    activeFrom: "2025-10-15",
+    activeTo: "2025-11-16",
     status: "published",
     location: {
       address: 'Симуляционный центр "МедСим"',
@@ -481,6 +487,7 @@ export const mockMasterClasses: (MasterClass & { id: string })[] = [
     certificates: true,
     handsOn: true,
     groupWork: true,
+    previewImage: "/1.png"
   },
 ]
 
@@ -558,6 +565,7 @@ export const mockVacancies: (Vacancy & { id: string })[] = [
     categories: ["medical"],
     urgent: false,
     featured: false,
+    previewImage: "/2.png"
   },
   {
     id: "vacancy-2",
@@ -628,6 +636,7 @@ export const mockVacancies: (Vacancy & { id: string })[] = [
     categories: ["medical"],
     urgent: false,
     featured: false,
+    previewImage: "/3.png"
   },
 ]
 
@@ -770,6 +779,7 @@ export const mockOlympiads: (Olympiad & { id: string })[] = [
     participationFormat: "Индивидуальное",
     registrationDeadline: "2025-09-28",
     registrationFee: 0,
+    previewImage: "/4.png"
   },
   {
     id: "olympiad-2",
@@ -924,6 +934,7 @@ export const mockOlympiads: (Olympiad & { id: string })[] = [
     participationFormat: "Индивидуальное и командное",
     registrationDeadline: "2025-09-01",
     registrationFee: 8000,
+    previewImage: "/5.png"
   },
 ]
 

@@ -45,7 +45,7 @@ export const AnnouncementCard: React.FC<AnnouncementCardProps> = ({
     <div className={cardClass}>
       {variant !== "compact" && (
         <div className={styles.imageContainer}>
-          <img src={"/placeholder.webp"} alt={announcement.title} className={styles.image} />
+          <img src={announcement.previewImage || "/placeholder.webp"} alt={announcement.title} className={styles.image} />
           {announcement.isPromoted && <div className={styles.promotedBadge}>Рекомендуемое</div>}
           {isVacancy && (announcement as Vacancy).urgent && <div className={styles.urgentBadge}>Срочно</div>}
           {isVacancy && (announcement as Vacancy).featured && <div className={styles.featuredBadge}>Топ</div>}
