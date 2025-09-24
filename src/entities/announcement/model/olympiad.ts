@@ -186,4 +186,9 @@ export interface Olympiad extends BaseAnnouncement {
   categories: AnnouncementCategory[]
   targetAudience?: TargetAudience[]
   language?: Language
+
+  level: string // человекочитаемый уровень олимпиады
+  participationFormat: string // человекочитаемый формат участия
+  registrationDeadline: string // дедлайн регистрации
+  registrationFee?: number // стоимость регистрации
 }
