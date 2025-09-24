@@ -1,11 +1,11 @@
 import type React from "react"
 import { Calendar, MapPin, Briefcase } from "lucide-react"
 import styles from "./AnnouncementCard.module.css"
-import type { Conference, Webinar, MasterClass, Vacancy, AnnouncementCategory } from "../../model/index"
+import type { Conference, Webinar, MasterClass, Vacancy, AnnouncementCategory, Olympiad } from "../../model/index"
 import { formatPrice, formatDate, getLocationText, translateCategory } from "@/shared/lib/formatters"
 
 interface AnnouncementCardProps {
-  announcement: Conference | Webinar | MasterClass | Vacancy
+  announcement: Conference | Webinar | MasterClass | Vacancy | Olympiad
   variant?: "default" | "compact"
   className?: string
 }
