@@ -32,22 +32,28 @@ const categories: CategoryOption[] = [
     description: "Онлайн-лекции и вебинары",
     icon: Video,
   },
-  {
-    id: "Course",
-    title: "Курсы ПК",
-    description: "Курсы повышения квалификации",
-    icon: BookOpen,
-  },
+  // {
+  //   id: "Course",
+  //   title: "Курсы ПК",
+  //   description: "Курсы повышения квалификации",
+  //   icon: BookOpen,
+  // },
 //   {
 //     id: "internship",
 //     title: "Стажировки",
 //     description: "Стажировки и ординатура",
 //     icon: Stethoscope,
 //   },
-  {
-    id: "University",
-    title: "ВУЗы",
-    description: "Образовательные учреждения",
+  // {
+  //   id: "University",
+  //   title: "ВУЗы",
+  //   description: "Образовательные учреждения",
+  //   icon: GraduationCap,
+  // },
+    {
+    id: "Olimpiad",
+    title: "Олимпиады",
+    description: "Студенческие олимпиады",
     icon: GraduationCap,
   },
   {
@@ -56,15 +62,15 @@ const categories: CategoryOption[] = [
     description: "Медицинские вакансии",
     icon: Building,
   },
-//   {
-//     id: "equipment",
-//     title: "Оборудование",
-//     description: "Медицинское оборудование",
-//     icon: Wrench,
-//   },
+  {
+    id: "Equipment",
+    title: "Оборудование",
+    description: "Медицинское оборудование",
+    icon: Wrench,
+  },
 ]
 
-const enabledCategories: AnnouncementType[] = ["Conference", "Masterclass", "Webinar"]
+const enabledCategories: AnnouncementType[] = ["Conference", "Masterclass", "Webinar", "Equipment", "Vacancy", "Olimpiad",]
 
 interface CategorySelectionProps {
   selectedCategory: AnnouncementType | null

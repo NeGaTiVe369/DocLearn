@@ -31,6 +31,7 @@ export const categoryTypeTranslations = {
   Conference: "Конференция",
   Masterclass: "Мастер-класс",
   Webinar: "Вебинар",
+  Vacancy: "Вакансия",
 } as const
 
 export const languageTranslations = {

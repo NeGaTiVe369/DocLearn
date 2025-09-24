@@ -53,7 +53,7 @@ export const SpeakersSection: React.FC<SpeakersSectionProps> = ({ speakers }) =>
                 <span className={styles.statusText}>{getStatusText(speaker.status)}</span>
               </div>
             </div>
-            {/* {speaker.bio && <p className={styles.speakerBio}>{speaker.bio}</p>} */}
+            {speaker.bio && <p className={styles.speakerBio}>{speaker.bio}</p>}
           </div>
         ))}
       </div>

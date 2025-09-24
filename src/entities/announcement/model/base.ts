@@ -17,6 +17,8 @@ export type AnnouncementType =
   | "University"
   | "Vacancy"
   | "Equipment"
+  | "Olimpiad"
+
 
 export type AnnouncementCategory =
   | 'medical'
@@ -55,6 +57,7 @@ export interface AnnouncementContactInfo {
 export interface Speaker {
   userId: string
   name: string
+  bio?: string
   eventRole: string
   status: "pending" | "confirmed" | "declined"
 }

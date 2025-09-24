@@ -35,7 +35,7 @@ const categoriesOptions: { value: AnnouncementCategory; label: string }[] = [
 
 export function AdditionalDetails({ formData, onUpdate, onNext, onPrevious }: AdditionalDetailsProps) {
     const [newTag, setNewTag] = useState("")
-    const labels = getFormLabels(formData.category || "conference")
+    const labels = getFormLabels(formData.category || "Conference")
 
 
     const handleInputChange = (field: keyof CreateAnnouncementFormData, value: any) => {
