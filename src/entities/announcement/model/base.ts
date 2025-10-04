@@ -62,7 +62,23 @@ export interface Speaker {
   status: "pending" | "confirmed" | "declined"
 }
 
+export interface CustomSpeaker {
+  name: string
+  role: string
+  status: "pending" | "confirmed" | "declined"
+}
+
+export interface ConferenceStage {
+  id: string
+  name: string
+  description?: string
+  date: string
+  maxParticipants?: number
+  order: number
+}
+
 export interface BaseAnnouncement {
+  id: string
   type: AnnouncementType
   title: string
   description: string

@@ -169,7 +169,7 @@ export const mockConferences: (Conference & { id: string })[] = [
     language: "ru",
     certificates: true,
     cmeCredits: 16,
-    previewImage: "/6.png"
+    previewImage: "/PreviewImages/6.png"
   },
   {
     id: "conf-1",
@@ -224,7 +224,7 @@ export const mockConferences: (Conference & { id: string })[] = [
     language: "ru",
     certificates: true,
     cmeCredits: 24,
-    previewImage: "/1.png"
+    previewImage: "/PreviewImages/1.png"
   },
   {
     id: "conf-3",
@@ -272,7 +272,7 @@ export const mockConferences: (Conference & { id: string })[] = [
     language: "multi",
     certificates: true,
     cmeCredits: 16,
-    previewImage: "/2.png"
+    previewImage: "/PreviewImages/2.png"
   },
 ]
 
@@ -323,7 +323,7 @@ export const mockWebinars: (Webinar & { id: string })[] = [
     duration: 120,
     prerequisites: "Базовые знания статистики и работы с компьютером",
     materials: ["Презентация", "Практические задания", "Список литературы"],
-    previewImage: "/3.png"
+    previewImage: "/PreviewImages/3.png"
   },
   {
     id: "webinar-2",
@@ -368,7 +368,7 @@ export const mockWebinars: (Webinar & { id: string })[] = [
     duration: 90,
     prerequisites: "Медицинское образование",
     materials: ["Клинические рекомендации", "Алгоритмы лечения"],
-    previewImage: "/4.png"
+    previewImage: "/PreviewImages/4.png"
   },
 ]
 
@@ -420,7 +420,7 @@ export const mockMasterClasses: (MasterClass & { id: string })[] = [
     certificates: true,
     handsOn: true,
     groupWork: true,
-    previewImage: "/5.png"
+    previewImage: "/PreviewImages/5.png"
   },
   {
     id: "masterclass-2",
@@ -487,7 +487,7 @@ export const mockMasterClasses: (MasterClass & { id: string })[] = [
     certificates: true,
     handsOn: true,
     groupWork: true,
-    previewImage: "/1.png"
+    previewImage: "/PreviewImages/1.png"
   },
 ]
 
@@ -565,7 +565,7 @@ export const mockVacancies: (Vacancy & { id: string })[] = [
     categories: ["medical"],
     urgent: false,
     featured: false,
-    previewImage: "/2.png"
+    previewImage: "/PreviewImages/2.png"
   },
   {
     id: "vacancy-2",
@@ -636,7 +636,7 @@ export const mockVacancies: (Vacancy & { id: string })[] = [
     categories: ["medical"],
     urgent: false,
     featured: false,
-    previewImage: "/3.png"
+    previewImage: "/PreviewImages/3.png"
   },
 ]
 
@@ -779,7 +779,7 @@ export const mockOlympiads: (Olympiad & { id: string })[] = [
     participationFormat: "Индивидуальное",
     registrationDeadline: "2025-09-28",
     registrationFee: 0,
-    previewImage: "/4.png"
+    previewImage: "/PreviewImages/4.png"
   },
   {
     id: "olympiad-2",
@@ -934,7 +934,7 @@ export const mockOlympiads: (Olympiad & { id: string })[] = [
     participationFormat: "Индивидуальное и командное",
     registrationDeadline: "2025-09-01",
     registrationFee: 8000,
-    previewImage: "/5.png"
+    previewImage: "/PreviewImages/5.png"
   },
 ]
 

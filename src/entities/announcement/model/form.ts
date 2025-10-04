@@ -4,10 +4,12 @@ import type {
   AnnouncementContactInfo, 
   AnnouncementCategory, 
   TargetAudience, 
-  Speaker, 
+  Speaker,
+  CustomSpeaker,
   Language, 
   PriceType, 
-  Currency 
+  Currency,
+  ConferenceStage
 } from "./base"
 import type { MasterClassSkillLevel } from "./masterClass"
 
@@ -31,10 +33,13 @@ export interface CreateAnnouncementFormData {
   currency: Currency
   program: string
   speakers: Speaker[]
+  customSpeakers?: CustomSpeaker[]
   certificates: boolean
   registrationRequired: boolean
   registrationLink: string
   contactInfo: AnnouncementContactInfo
+  stages?: ConferenceStage[]
+  hasStages?: boolean
 
     // Master class specific fields
   skillLevel?: MasterClassSkillLevel

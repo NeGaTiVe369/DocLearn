@@ -10,7 +10,9 @@ export type {
   Speaker,
   Language,
   Currency,
-  PriceType
+  PriceType,
+  ConferenceStage,
+  CustomSpeaker,
 } from "./base"
 export type { Conference } from "./conference"
 export type { Webinar, WebinarPlatform, WebinarPlatformDetails } from "./webinar"

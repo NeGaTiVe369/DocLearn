@@ -3,11 +3,13 @@
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { ArrowLeft } from "lucide-react"
+import { Alert } from "react-bootstrap"
 import { StepIndicator } from "@/features/announcements/ui/AnnouncementsCreatePage/StepIndicator/StepIndicator"
 import { CategorySelection } from "@/features/announcements/ui/AnnouncementsCreatePage/CategorySelection/CategorySelection"
 import { BasicInformation } from "@/features/announcements/ui/AnnouncementsCreatePage/BasicInformation/BasicInformation"
 import { AdditionalDetails } from "@/features/announcements/ui/AnnouncementsCreatePage/AdditionalDetails/AdditionalDetails"
 import { PreviewAndPublish } from "@/features/announcements/ui/AnnouncementsCreatePage/PreviewAndPublish/PreviewAndPublish"
+import { useCreateConferenceMutation } from "@/features/announcements/api/createConferenceApi"
 import type { CreateAnnouncementFormData } from "@/entities/announcement/model"
 import styles from "./CreateAnnouncementPage.module.css"
 
@@ -53,6 +55,9 @@ export function CreateAnnouncementPage() {
   const router = useRouter()
   const [currentStep, setCurrentStep] = useState(1)
   const [formData, setFormData] = useState<CreateAnnouncementFormData>(initialFormData)
+  const [alert, setAlert] = useState<{ type: "success" | "error"; message: string } | null>(null)
+
+  const [createConference, { isLoading: isSubmitting }] = useCreateConferenceMutation()
 
   // Load data from sessionStorage on mount
   useEffect(() => {
@@ -73,6 +78,12 @@ export function CreateAnnouncementPage() {
     sessionStorage.setItem(STORAGE_KEY, JSON.stringify({ formData, currentStep }))
   }, [formData, currentStep])
 
+  useEffect(() => {
+    if (alert) {
+      window.scrollTo({ top: 0, behavior: "smooth" })
+    }
+  }, [alert])
+
   const updateFormData = (updates: Partial<CreateAnnouncementFormData>) => {
     setFormData((prev) => ({ ...prev, ...updates }))
   }
@@ -90,15 +101,51 @@ export function CreateAnnouncementPage() {
   }
 
   const handleBackToList = () => {
-    // Clear saved data when going back to list
     sessionStorage.removeItem(STORAGE_KEY)
     router.push("/announcements")
   }
 
+  const handleSaveDraft = async () => {
+    if (isSubmitting) return
+
+    setAlert(null)
+    console.log("Saving draft with data:", { isDraft: true, formData })
+
+    try {
+      await createConference({ formData, status: "draft" }).unwrap()
+      setAlert({ type: "success", message: "Черновик успешно сохранен!" })
+
+      setTimeout(() => {
+        sessionStorage.removeItem(STORAGE_KEY)
+        router.push("/announcements")
+      }, 1500)
+    } catch (error: any) {
+      const errorMessage = error?.data?.message || "Не удалось сохранить черновик"
+      console.log("Submitting announcement:", formData)
+      setAlert({ type: "error", message: errorMessage })
+    }
+  }
+
   const handleSubmit = async () => {
-    console.log("Submitting announcement:", formData)
-    sessionStorage.removeItem(STORAGE_KEY)
-    router.push("/announcements")
+    if (isSubmitting) return
+
+    setAlert(null)
+
+    console.log("Submitting announcement with data:", { isDraft: false, formData })
+    try {
+      await createConference({ formData, status: "pending" }).unwrap()
+      setAlert({ type: "success", message: "Объявление успешно отправлено на модерацию!" })
+      console.log("Submitting announcement:", formData)
+
+      setTimeout(() => {
+        sessionStorage.removeItem(STORAGE_KEY)
+        router.push("/announcements")
+      }, 1500)
+    } catch (error: any) {
+      const errorMessage = error?.data?.message || "Не удалось опубликовать объявление"
+      console.log("Submitting announcement:", formData)
+      setAlert({ type: "error", message: errorMessage })
+    }
   }
 
   const renderCurrentStep = () => {
@@ -118,6 +165,8 @@ export function CreateAnnouncementPage() {
             onUpdate={updateFormData}
             onNext={handleNext}
             onPrevious={handlePrevious}
+            onSaveDraft={handleSaveDraft}
+            isSubmitting={isSubmitting}
           />
         )
       case 3:
@@ -127,6 +176,8 @@ export function CreateAnnouncementPage() {
             onUpdate={updateFormData}
             onNext={handleNext}
             onPrevious={handlePrevious}
+            onSaveDraft={handleSaveDraft}
+            isSubmitting={isSubmitting}
           />
         )
       case 4:
@@ -136,6 +187,8 @@ export function CreateAnnouncementPage() {
             onUpdate={updateFormData}
             onSubmit={handleSubmit}
             onPrevious={handlePrevious}
+            onSaveDraft={handleSaveDraft}
+            isSubmitting={isSubmitting}
           />
         )
       default:
@@ -153,6 +206,14 @@ export function CreateAnnouncementPage() {
 
         <StepIndicator currentStep={currentStep} />
       </div>
+
+      {alert && (
+        <div className={styles.alertContainer}>
+          <Alert variant={alert.type === "error" ? "danger" : "success"} dismissible onClose={() => setAlert(null)}>
+            {alert.message}
+          </Alert>
+        </div>
+      )}
 
       <div className={styles.content}>
         <h1 className={styles.title}>Создание объявления</h1>
